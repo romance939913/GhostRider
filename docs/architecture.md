@@ -49,28 +49,28 @@ flowchart LR
 
 ## 2. Components
 
-| Component | Tech | Responsibility |
-|---|---|---|
-| **Web app** (`apps/web`) | Next.js | Dashboard, journey authoring UI, run history and step replay viewer, landing page and live demo. Talks only to the API. |
-| **API** (`apps/api`) | Fastify, Drizzle | Auth, journeys/runs CRUD, domain verification, enqueueing jobs, managing journey schedules, streaming recording progress to the browser (SSE). The only component the browser talks to. |
-| **Queues & schedules** | Redis + BullMQ | `record`, `run` and `alert` queues. Retries with backoff, timeouts, concurrency limits, stalled-job recovery. Recurring journey schedules are BullMQ **job schedulers**, so there's no separate cron service. |
-| **Recorder worker** (`apps/worker`, role `recorder`) | Playwright, `packages/agent`, `packages/compiler` | Runs the agent loop against the target site, writes the trace, compiles it into a journey version. **The only component with an LLM API key.** |
-| **Runner worker** (`apps/worker`, role `runner`) | Playwright | Executes a compiled journey version in a fresh browser context, saves step results and artifacts, retries a failed journey once, enqueues an alert on a confirmed failure. **Has no LLM credentials.** |
-| **Notifier worker** (`apps/worker`, role `notifier`) | Slack webhooks, email provider | Sends failure and recovery alerts and dedupes repeat alerts while a journey stays down. |
-| **Postgres** | Postgres 16, Drizzle migrations | Source of truth: users, sites, journeys, journey versions, runs, step results, alert channels, encrypted credentials. |
-| **Redis** | Redis 7 | BullMQ queues and schedules, recording-progress events, demo rate limiting. Holds no state that can't be rebuilt from Postgres. |
-| **Object storage** | S3 (MinIO locally) | Screenshots, Playwright trace files, agent traces. Postgres stores only keys. |
-| **Shared contracts** (`packages/shared`) | Zod | Trace format, job payloads and API types, shared by web, API and workers. One definition gives both static types and runtime validation. |
+| Component                                            | Tech                                              | Responsibility                                                                                                                                                                                                |
+| ---------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Web app** (`apps/web`)                             | Next.js                                           | Dashboard, journey authoring UI, run history and step replay viewer, landing page and live demo. Talks only to the API.                                                                                       |
+| **API** (`apps/api`)                                 | Fastify, Drizzle                                  | Auth, journeys/runs CRUD, domain verification, enqueueing jobs, managing journey schedules, streaming recording progress to the browser (SSE). The only component the browser talks to.                       |
+| **Queues & schedules**                               | Redis + BullMQ                                    | `record`, `run` and `alert` queues. Retries with backoff, timeouts, concurrency limits, stalled-job recovery. Recurring journey schedules are BullMQ **job schedulers**, so there's no separate cron service. |
+| **Recorder worker** (`apps/worker`, role `recorder`) | Playwright, `packages/agent`, `packages/compiler` | Runs the agent loop against the target site, writes the trace, compiles it into a journey version. **The only component with an LLM API key.**                                                                |
+| **Runner worker** (`apps/worker`, role `runner`)     | Playwright                                        | Executes a compiled journey version in a fresh browser context, saves step results and artifacts, retries a failed journey once, enqueues an alert on a confirmed failure. **Has no LLM credentials.**        |
+| **Notifier worker** (`apps/worker`, role `notifier`) | Slack webhooks, email provider                    | Sends failure and recovery alerts and dedupes repeat alerts while a journey stays down.                                                                                                                       |
+| **Postgres**                                         | Postgres 16, Drizzle migrations                   | Source of truth: users, sites, journeys, journey versions, runs, step results, alert channels, encrypted credentials.                                                                                         |
+| **Redis**                                            | Redis 7                                           | BullMQ queues and schedules, recording-progress events, demo rate limiting. Holds no state that can't be rebuilt from Postgres.                                                                               |
+| **Object storage**                                   | S3 (MinIO locally)                                | Screenshots, Playwright trace files, agent traces. Postgres stores only keys.                                                                                                                                 |
+| **Shared contracts** (`packages/shared`)             | Zod                                               | Trace format, job payloads and API types, shared by web, API and workers. One definition gives both static types and runtime validation.                                                                      |
 
 One `apps/worker` codebase starts as a recorder, runner or notifier based on `WORKER_ROLE`. Locally that's one container. In production each role can scale on its own; runners are the high-volume one.
 
 ## 3. Jobs & reliability
 
-- **Jobs the API creates (recordings, "run now"): Postgres first, then the queue.** The row is committed to Postgres *before* its job is added to BullMQ. The job's ID is the row's ID, so adding the same job twice is harmless (idempotent).
+- **Jobs the API creates (recordings, "run now"): Postgres first, then the queue.** The row is committed to Postgres _before_ its job is added to BullMQ. The job's ID is the row's ID, so adding the same job twice is harmless (idempotent).
 - **Reconciliation sweep.** Writing to Postgres and Redis can't happen in one transaction, so a row could be committed while its enqueue fails. A periodic sweep re-enqueues anything stuck in `queued` longer than a couple of minutes. Because job IDs are deterministic, this never creates duplicates. (Rationale in ADR-004.)
 - **Scheduled runs: the queue first, then Postgres.** BullMQ's scheduler creates these jobs itself, so the runner creates the run row when it picks the job up. The row is keyed by the job ID, so a retried job never creates a second run.
 - **Stalled jobs.** If a worker dies mid-job, BullMQ's stalled-job detection hands the job to another worker.
-- **Two kinds of retry:** a *job* retry means GhostRider itself failed (a worker crash or timeout), and the run is marked `errored` and never alerted. A *journey* retry means the target site failed, and the spec's "retry once, then alert" rule applies. Keeping them separate is what stops infrastructure trouble from paging users.
+- **Two kinds of retry:** a _job_ retry means GhostRider itself failed (a worker crash or timeout), and the run is marked `errored` and never alerted. A _journey_ retry means the target site failed, and the spec's "retry once, then alert" rule applies. Keeping them separate is what stops infrastructure trouble from paging users.
 - **Redis is not a source of truth.** If Redis is wiped, schedules are rebuilt from the `journeys` table on API startup, and in-flight runs are recovered by the sweep.
 
 ## 4. Key journeys
@@ -175,22 +175,22 @@ ghostrider/
 
 `docker compose up` starts the stack:
 
-| Service | Port | M0 | Later |
-|---|---|---|---|
-| `web` | 3000 | ✓ skeleton + health page | |
-| `api` | 4000 | ✓ `/health` checks Postgres + Redis | |
-| `postgres` | 5432 | ✓ (migrations run on start) | |
-| `redis` | 6379 | ✓ | |
-| `worker` | — | | M1–M3 |
-| `minio` | 9000 | | M3 |
-| `mailpit` (local email inbox) | 8025 | | M4 |
+| Service                       | Port | M0                                  | Later |
+| ----------------------------- | ---- | ----------------------------------- | ----- |
+| `web`                         | 3000 | ✓ skeleton + health page            |       |
+| `api`                         | 4000 | ✓ `/health` checks Postgres + Redis |       |
+| `postgres`                    | 5432 | ✓ (migrations run on start)         |       |
+| `redis`                       | 6379 | ✓                                   |       |
+| `worker`                      | —    |                                     | M1–M3 |
+| `minio`                       | 9000 |                                     | M3    |
+| `mailpit` (local email inbox) | 8025 |                                     | M4    |
 
 ## 8. Decisions
 
-| ADR | Decision |
-|---|---|
-| ADR-001 | Record architecture decisions as ADRs |
-| [ADR-002](./adr/0002-all-typescript-monorepo.md) | All-TypeScript monorepo (pnpm + Turborepo) |
-| ADR-003 | AI at authoring, deterministic replay at runtime |
+| ADR                                                       | Decision                                                  |
+| --------------------------------------------------------- | --------------------------------------------------------- |
+| ADR-001                                                   | Record architecture decisions as ADRs                     |
+| [ADR-002](./adr/0002-all-typescript-monorepo.md)          | All-TypeScript monorepo (pnpm + Turborepo)                |
+| ADR-003                                                   | AI at authoring, deterministic replay at runtime          |
 | [ADR-004](./adr/0004-postgres-state-redis-bullmq-jobs.md) | Postgres for state; Redis + BullMQ for jobs and schedules |
-| ADR-005 | Data model and trace format stay provisional until M1 |
+| ADR-005                                                   | Data model and trace format stay provisional until M1     |

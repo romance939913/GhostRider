@@ -30,12 +30,14 @@ Tooling: Biome (lint + format), Vitest (tests), `tsc --noEmit` (typecheck), all 
 ## Consequences
 
 **Positive**
-- **One type system end to end.** A Zod schema in `packages/shared` gives static types *and* runtime validation everywhere, with no code generation step.
+
+- **One type system end to end.** A Zod schema in `packages/shared` gives static types _and_ runtime validation everywhere, with no code generation step.
 - **First-class Playwright** with no cross-language boundary.
 - **BullMQ is available** (Node-only), with retries, schedules and stalled-job recovery built in (see ADR-004).
 - **One toolchain** in CI, Docker and local dev, so M0 setup and ongoing upkeep are both smaller.
 
 **Negative**
+
 - The API and scheduler run on Node's single-threaded event loop. Fine at v1 scale; CPU-heavy work stays out of the API.
 - Less range shown across languages. Accepted: the project's emphasis is the system design and AI work, not language variety.
 
