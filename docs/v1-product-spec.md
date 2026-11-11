@@ -5,7 +5,7 @@
 
 ## 1. Summary
 
-GhostRider is synthetic monitoring for small teams. You describe a critical user flow in plain English ("sign up with a new email and confirm the dashboard loads"). An AI browser agent performs it once, and GhostRider compiles what the agent did into a deterministic Playwright script. That script then runs on a schedule **with no LLM in the loop**, and you get alerted, with a screenshot, the moment the flow breaks.
+GhostRider is synthetic monitoring for small teams. You describe a critical user journey in plain English ("sign up with a new email and confirm the dashboard loads"). An AI browser agent performs it once, and GhostRider compiles what the agent did into a deterministic Playwright script. That script then runs on a schedule **with no LLM in the loop**, and you get alerted, with a screenshot, the moment the journey breaks.
 
 **The core bet:** AI is good at *figuring out* how to do a task and too slow, expensive and nondeterministic to run every few minutes. So GhostRider uses AI once, at authoring time, and runs plain code at check time.
 
@@ -19,7 +19,7 @@ Small SaaS teams find out their signup or checkout is broken when a customer ema
 
 ## 3. Target user
 
-**Primary:** a solo founder or a small team (1–10 engineers) running a web SaaS in production. They know what their critical flows are, don't have a QA person, and want a "tell me when signup breaks" alarm in under 10 minutes of setup.
+**Primary:** a solo founder or a small team (1–10 engineers) running a web SaaS in production. They know what their critical journeys are, don't have a QA person, and want a "tell me when signup breaks" alarm in under 10 minutes of setup.
 
 **Not the target (v1):** QA teams that want a pre-deploy regression suite, enterprises that need SSO, audit logs or private-network runners.
 
@@ -34,14 +34,14 @@ Describe ──► Record ──► Compile ──► Replay on schedule ──�
 1. **Describe:** the user enters a URL and a goal in English, plus optional test credentials.
 2. **Record:** the agent drives a real browser through the accessibility tree using a small tool set (`click`, `type`, `navigate`, `assert`, `done`). Every step is logged to a **trace**: what it saw, what it did, why, and what happened.
 3. **Compile:** the trace becomes a deterministic Playwright script with stable selectors, explicit assertions and the original English intent stored on every step. The user reviews it and activates it.
-4. **Replay:** a worker runs the compiled script on a schedule in a sandboxed browser and stores screenshots and a Playwright trace for every run.
+4. **Replay:** a worker runs the compiled script on a schedule in a sandboxed browser and records the result of every step. Screenshots and a Playwright trace are kept when a run fails, plus the most recent passing run as a "known good" reference.
 5. **Alert:** on failure, the run is retried once. If it still fails, the user gets an alert showing the failing step, its intent, the error and a screenshot.
 
 ## 5. v1 scope
 
-### 5.1 Flow authoring
-- Create a flow from a **start URL + English goal**.
-- The agent records the flow in a real Chromium browser and streams progress to the UI.
+### 5.1 Journey authoring
+- Create a journey from a **start URL + English goal**.
+- The agent records the journey in a real Chromium browser and streams progress to the UI.
 - Supported actions: navigate, click, type/fill, select, wait-for, and **assert**.
 - Assertions:
   - **UI:** text visible, element visible/enabled, URL matches.
@@ -54,31 +54,33 @@ Describe ──► Record ──► Compile ──► Replay on schedule ──�
 - Trace → Playwright script (TypeScript).
 - **Selector priority:** `getByRole`/`getByLabel`/`getByTestId` → visible text → CSS as a last resort. Each step records its chosen selector and fallbacks.
 - Each compiled step stores: action, selector, value or variable, assertion, and the **English intent** ("click the Sign up button").
-- The compiled script is versioned. Re-recording a flow creates a new version; old runs stay linked to the version they ran.
+- The compiled script is versioned. Re-recording a journey creates a new version; old runs stay linked to the version they ran.
 - **Bar for "compiled correctly":** 10 consecutive green replays with zero LLM calls.
 
 ### 5.3 Scheduled replay
 - Schedules: every 5, 15 or 60 minutes, or manual "run now".
-- Each run executes in an isolated, containerized Chromium with a hard timeout (proposed: 60s per flow).
-- Artifacts per run: a screenshot per step, a screenshot on failure, and a Playwright trace file. Stored in S3-compatible storage.
+- Each run executes in an isolated, containerized Chromium with a hard timeout (proposed: 60s per journey).
+- Every run records each step's result (pass/fail, timing, error).
+- **Screenshots and the Playwright trace file are kept only for failed runs, plus the most recent passing run of each journey.** That passing run is the "known good" reference to compare a failure against. When the next run passes, it replaces the previous one. Stored in S3-compatible storage.
+  - *Why:* a screenshot of every step of every run would be about 29 GB/day at 100 users × 3 journeys every 15 min, almost all of it images of things working. This policy cuts that by more than 99% and keeps everything useful for debugging.
 - Run statuses: `queued → running → passed | failed | errored` (`errored` = GhostRider's own fault, such as a worker crash, and never alerted as a site failure).
 
 ### 5.4 Alerts
 - Channels: **Slack** (incoming webhook) and **email**.
 - An alert fires when a run fails *after one automatic retry*, to cut flaky noise.
-- The alert includes: flow name, failing step number and intent, error message, a failure screenshot and a link to the run.
-- A **recovery** notice is sent when a failing flow passes again. No repeat alerts while a flow stays down.
+- The alert includes: journey name, failing step number and intent, error message, a failure screenshot and a link to the run.
+- A **recovery** notice is sent when a failing journey passes again. No repeat alerts while a journey stays down.
 
 ### 5.5 Dashboard
-- Flow list with current status, last run time and pass rate (7 days).
-- Run history per flow.
-- **Step replay viewer:** step-by-step list with intent, action, result and screenshot for any run.
+- Journey list with current status, last run time and pass rate (7 days).
+- Run history per journey.
+- **Step replay viewer:** step-by-step list with intent, action and result for any run, plus screenshots for failed runs and the latest passing run.
 
 ### 5.6 Accounts & safety
 - Email/password or GitHub sign-in. One user per account in v1.
-- **Domain verification** (DNS TXT record or meta tag) is required before a flow can run on a schedule. Unverified domains can be recorded and run manually only. This stops GhostRider from being used to hammer sites the user doesn't own.
-- Free-tier limits (proposed): 3 flows, minimum 15-minute interval.
-- **Landing-page demo:** visitors can watch the agent record a flow on a GhostRider-owned demo site. Rate-limited per IP, with a global daily LLM spend cap.
+- **Domain verification** (DNS TXT record or meta tag) is required before a journey can run on a schedule. Unverified domains can be recorded and run manually only. This stops GhostRider from being used to hammer sites the user doesn't own.
+- Free-tier limits (proposed): 3 journeys, minimum 15-minute interval.
+- **Landing-page demo:** visitors can watch the agent record a journey on a GhostRider-owned demo site. Rate-limited per IP, with a global daily LLM spend cap.
 
 ## 6. Non-goals (v1)
 
@@ -91,8 +93,8 @@ These are deliberately out of scope. Most are reasonable later additions; none a
 | Teams, roles, SSO, audit logs | Single-user accounts are enough to prove value to the target user. |
 | Visual regression / pixel diffing | Different product; noisy; assertions cover functional breakage. |
 | CI / pre-deploy test runs | GhostRider monitors **production**; it isn't a QA suite. |
-| Multi-region runners | One region is fine for "is the flow broken." Latency monitoring is a different product. |
-| Flows behind CAPTCHA, email OTP or SMS MFA | Hard and adversarial by design. Users can whitelist the runner or use a test account without MFA. |
+| Multi-region runners | One region is fine for "is the journey broken." Latency monitoring is a different product. |
+| Journeys behind CAPTCHA, email OTP or SMS MFA | Hard and adversarial by design. Users can whitelist the runner or use a test account without MFA. |
 | Editing compiled scripts by hand | v1 users re-record instead; a script editor is a lot of UI for little value. |
 | Paid plans / billing | Portfolio project with a free tier. |
 
@@ -108,12 +110,12 @@ These are deliberately out of scope. Most are reasonable later additions; none a
 
 | Area | Measure | v1 target |
 |---|---|---|
-| Authoring | Agent completes flows in the eval set (5–10 real-site flows) | ≥ 80% |
+| Authoring | Agent completes journeys in the eval set (5–10 real-site journeys) | ≥ 80% |
 | Compilation | Compiled script replays green consecutively | 10/10, zero LLM calls |
-| Detection | Deliberately broken dogfood flow → alert received | Within one schedule interval |
-| Noise | False alerts on healthy flows (dogfood, 1 week) | < 1% of runs |
-| Cost | LLM cost per flow authored; cost per scheduled run | Measured and published; run cost ≈ compute only |
-| Dogfooding | SupportSense AI monitored in production | ≥ 2 flows live |
+| Detection | Deliberately broken dogfood journey → alert received | Within one schedule interval |
+| Noise | False alerts on healthy journeys (dogfood, 1 week) | < 1% of runs |
+| Cost | LLM cost per journey authored; cost per scheduled run | Measured and published; run cost ≈ compute only |
+| Dogfooding | SupportSense AI monitored in production | ≥ 2 journeys live |
 
 ## 10. Risks & open questions
 
@@ -124,13 +126,13 @@ These are deliberately out of scope. Most are reasonable later additions; none a
 | Abuse: using GhostRider to scrape or load-test sites | Domain verification, rate limits, minimum intervals. |
 | Running arbitrary websites in our infrastructure | Sandboxed, ephemeral browser containers with no access to internal network or secrets beyond the run's own. |
 | Trace format isn't known until M1 | Data model stays provisional (ADR-005); trace stored as versioned JSON. |
-| **Open:** how flows that need a fresh account each run should clean up | Decide in M2. Likely value chaining plus a user-provided teardown step, or a dedicated test account. |
+| **Open:** how journeys that need a fresh account each run should clean up | Decide in M2. Likely value chaining plus a user-provided teardown step, or a dedicated test account. |
 | **Open:** default model for authoring | Decided by evals in M7; any reasonable model for M1. |
 
 ## 11. Glossary
 
-- **Flow:** a named user journey to monitor (URL + English goal).
-- **Trace:** the agent's step-by-step recording of a flow, including observations and reasoning.
-- **Compiled script / flow version:** the deterministic Playwright program produced from a trace.
-- **Run:** one execution of a flow version.
+- **Journey:** a critical path through your app to monitor, such as signup or checkout (URL + English goal).
+- **Trace:** the agent's step-by-step recording of a journey, including observations and reasoning.
+- **Compiled script / journey version:** the deterministic Playwright program produced from a trace.
+- **Run:** one execution of a journey version.
 - **Intent:** the plain-English description of what a step is trying to do.
