@@ -17,7 +17,9 @@
     "pg": "^8.23.1",
     "zod": "^4.6.7"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
     "@types/pg": "^8.23.1",
     "tsx": "^4.23.15",
