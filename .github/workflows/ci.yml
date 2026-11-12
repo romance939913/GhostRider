@@ -38,6 +38,11 @@ jobs:
 
       - run: pnpm exec biome ci .
       - run: pnpm typecheck
+
+      # packages/agent tests drive a real headless Chromium
+      - name: Install Chromium for agent tests
+        run: pnpm --filter @ghostrider/agent exec playwright install --with-deps chromium
+
       - run: pnpm test
       - run: pnpm build
 

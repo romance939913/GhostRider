@@ -1,0 +1,984 @@
+- link "Jump to content":
+  - /url: "#bodyContent"
+- banner:
+  - navigation "Site":
+    - button "Main menu"
+  - link "Wikipedia The Free Encyclopedia":
+    - /url: /wiki/Main_Page
+    - img "Wikipedia"
+    - img "The Free Encyclopedia"
+  - search:
+    - searchbox "Search Wikipedia"
+    - button "Search"
+  - navigation "Personal tools":
+    - list:
+      - listitem:
+        - link "Donate":
+          - /url: https://donate.wikimedia.org/?wmf_source=donate&wmf_medium=sidebar&wmf_campaign=en.wikipedia.org&uselang=en
+      - listitem:
+        - link "Create account":
+          - /url: /w/index.php?title=Special:CreateAccount&returnto=Main+Page
+      - listitem:
+        - link "Log in":
+          - /url: /w/index.php?title=Special:UserLogin&returnto=Main+Page
+- main:
+  - navigation "Namespaces":
+    - list:
+      - listitem:
+        - link "Main Page":
+          - /url: /wiki/Main_Page
+      - listitem:
+        - link "Talk":
+          - /url: /wiki/Talk:Main_Page
+  - navigation "Views":
+    - list:
+      - listitem:
+        - link "Read":
+          - /url: /wiki/Main_Page
+      - listitem:
+        - link "View source":
+          - /url: /w/index.php?title=Main_Page&action=edit
+      - listitem:
+        - link "View history":
+          - /url: /w/index.php?title=Main_Page&action=history
+      - listitem:
+        - link "Save":
+          - /url: "#"
+  - navigation "Page tools":
+    - button "Tools"
+  - navigation "Appearance":
+    - text: Appearance
+    - button "Hide Appearance": hide
+  - heading "Welcome to Wikipedia" [level=1]:
+    - text: Welcome to
+    - link "Wikipedia":
+      - /url: https://en.wikipedia.org/wiki/Wikipedia
+  - text: ", the"
+  - link "free":
+    - /url: https://en.wikipedia.org/wiki/Free_content
+  - text: encyclopedia that
+  - link "anyone can edit":
+    - /url: https://en.wikipedia.org/wiki/Help:Introduction_to_Wikipedia
+  - text: .
+  - list:
+    - listitem:
+      - link "264,676":
+        - /url: https://en.wikipedia.org/wiki/Special:Statistics
+      - text: active editors ·
+    - listitem:
+      - link "7,263,295":
+        - /url: https://en.wikipedia.org/wiki/Special:Statistics
+      - text: articles in
+      - link "English":
+        - /url: https://en.wikipedia.org/wiki/English_language
+  - heading "From today's featured article" [level=2]
+  - link "Royal Gloucestershire Hussars":
+    - /url: https://en.wikipedia.org/wiki/File:Sergeants,_Gloucestershire_Hussars,_1896_(cropped).jpg
+    - img "Royal Gloucestershire Hussars"
+  - paragraph:
+    - text: The
+    - link "Royal Gloucestershire Hussars":
+      - /url: https://en.wikipedia.org/wiki/Royal_Gloucestershire_Hussars
+    - text: was a
+    - link "regiment":
+      - /url: https://en.wikipedia.org/wiki/Regiment
+    - text: of British volunteer
+    - link "Yeomanry Cavalry":
+      - /url: https://en.wikipedia.org/wiki/Yeomanry_Cavalry
+    - text: that traced its origins to a
+    - link "troop":
+      - /url: https://en.wikipedia.org/wiki/Troop
+    - text: of
+    - link "yeomanry":
+      - /url: https://en.wikipedia.org/wiki/Yeomanry
+    - text: raised in
+    - link "Gloucestershire":
+      - /url: https://en.wikipedia.org/wiki/Gloucestershire
+    - text: in 1795. It was officered by
+    - link "nobility":
+      - /url: https://en.wikipedia.org/wiki/Nobility
+    - text: and
+    - link "gentry":
+      - /url: https://en.wikipedia.org/wiki/Gentry
+    - text: ", and its ranks were recruited largely from among"
+    - link "landholders":
+      - /url: https://en.wikipedia.org/wiki/Land_tenure
+    - text: and
+    - link "tenant farmers":
+      - /url: https://en.wikipedia.org/wiki/Tenant_farmer
+    - text: . During the 19th century, it was deployed in ceremonial duties and as mounted police during times of civil unrest. It won its first
+    - link "battle honour":
+      - /url: https://en.wikipedia.org/wiki/Battle_honour
+    - text: for service in South Africa during the
+    - link "Second Boer War":
+      - /url: https://en.wikipedia.org/wiki/Second_Boer_War
+    - text: . In 1908, it became part of the
+    - link "Territorial Force":
+      - /url: https://en.wikipedia.org/wiki/Territorial_Force
+    - text: ", and during the First World War the regiment saw action as infantry at"
+    - link "Gallipoli":
+      - /url: https://en.wikipedia.org/wiki/Gallipoli_campaign
+    - text: and as cavalry in the
+    - link "Sinai and Palestine campaign":
+      - /url: https://en.wikipedia.org/wiki/Sinai_and_Palestine_campaign
+    - text: . It converted to armour just before the Second World War and fought in the
+    - link "North African Campaign":
+      - /url: https://en.wikipedia.org/wiki/North_African_campaign
+    - text: . After several post-war reorganisations, the regiment was reduced to a
+    - link "squadron":
+      - /url: https://en.wikipedia.org/wiki/Squadron_(army)
+    - text: ", and its lineage is maintained by C (Royal Gloucestershire Hussars) Squadron of the"
+    - link "Royal Wessex Yeomanry":
+      - /url: https://en.wikipedia.org/wiki/Royal_Wessex_Yeomanry
+    - text: . (
+    - link "Full article...":
+      - /url: https://en.wikipedia.org/wiki/Royal_Gloucestershire_Hussars
+    - text: )
+  - text: "Recently featured:"
+  - list:
+    - listitem:
+      - link "U.S. Route 101":
+        - /url: https://en.wikipedia.org/wiki/U.S._Route_101
+      - text: ·
+    - listitem:
+      - link "Regulus (Turner)":
+        - /url: https://en.wikipedia.org/wiki/Regulus_(Turner)
+      - text: ·
+    - listitem:
+      - link "SoHo Weekly News":
+        - /url: https://en.wikipedia.org/wiki/SoHo_Weekly_News
+  - list:
+    - listitem:
+      - link "Archive":
+        - /url: https://en.wikipedia.org/wiki/Wikipedia:Today's_featured_article/November_2026
+      - text: ·
+    - listitem:
+      - link "By email":
+        - /url: https://lists.wikimedia.org/postorius/lists/daily-article-l.lists.wikimedia.org/
+      - text: ·
+    - listitem:
+      - link "More featured articles":
+        - /url: https://en.wikipedia.org/wiki/Wikipedia:Featured_articles_(linked_from_TFAfooter)
+      - text: ·
+    - listitem:
+      - link "About":
+        - /url: https://en.wikipedia.org/wiki/Wikipedia:About_Today's_featured_article
+  - heading "Did you know ..." [level=2]
+  - link "Illustration of earthquake lights":
+    - /url: https://en.wikipedia.org/wiki/File:Earthquake_light_at_Ebingen.png
+    - img "Illustration of earthquake lights"
+  - text: Illustration of earthquake lights
+  - list:
+    - listitem:
+      - text: ... that a factory foreman reported seeing
+      - link "a ball of light":
+        - /url: https://en.wikipedia.org/wiki/Earthquake_light
+      - text: "\"about the size of 20 suns\" during the 1911 Ebingen earthquake (drawing pictured)?"
+    - listitem:
+      - text: ... that
+      - link "Eva Davis":
+        - /url: https://en.wikipedia.org/wiki/Eva_Davis
+      - text: led a wildcat strike against
+      - link "Church's Chicken":
+        - /url: https://en.wikipedia.org/wiki/Church's_Texas_Chicken
+      - text: in Atlanta in 1972?
+    - listitem:
+      - text: ... that many people from Madagascar
+      - link "change their names":
+        - /url: https://en.wikipedia.org/wiki/Malagasy_naming_customs
+      - text: multiple times during their lives?
+    - listitem:
+      - text: ... that football players
+      - link "Walter Johnson":
+        - /url: https://en.wikipedia.org/wiki/Walter_Johnson_(defensive_tackle,_born_1965)
+      - text: and
+      - link "Rickey Jackson":
+        - /url: https://en.wikipedia.org/wiki/Rickey_Jackson
+      - text: lived in the same city, played at the same high school and college, and both played in the NFL on defense?
+    - listitem:
+      - text: ... that a medieval ivory chest showing
+      - link "a fictional battle between Richard I and Saladin":
+        - /url: https://en.wikipedia.org/wiki/Le_Pas_Saladin
+      - text: was found in a Brighton junk shop in 1945?
+    - listitem:
+      - text: ... that
+      - link "SB19":
+        - /url: https://en.wikipedia.org/wiki/SB19
+      - text: was the first Southeast Asian group to perform at
+      - link "Lollapalooza":
+        - /url: https://en.wikipedia.org/wiki/Lollapalooza
+      - text: "?"
+    - listitem:
+      - text: ... that when a disability limited
+      - link "David Miller":
+        - /url: https://en.wikipedia.org/wiki/David_Miller_(preacher)
+      - text: "'s use of his hands and legs, he memorized Bible passages and preached from memory in his wheelchair?"
+    - listitem:
+      - text: ... that the production of scientific instruments in the 16th- and 17th-century Mughal Empire was dominated by
+      - link "seven members of one family":
+        - /url: https://en.wikipedia.org/wiki/Lahore_family_of_astrolabists
+      - text: "?"
+    - listitem:
+      - text: ... that Archbishop
+      - link "Eustorge of Nicosia":
+        - /url: https://en.wikipedia.org/wiki/Eustorge_of_Montaigu
+      - text: excommunicated his nephew's widow and her new husband, who were said to be "happy to fester in their own excrement"?
+  - list:
+    - listitem:
+      - link "Archive":
+        - /url: https://en.wikipedia.org/wiki/Wikipedia:Did_you_know_archive
+      - text: ·
+    - listitem:
+      - link "Start a new article":
+        - /url: https://en.wikipedia.org/wiki/Help:Your_first_article
+      - text: ·
+    - listitem:
+      - link "Nominate an article":
+        - /url: https://en.wikipedia.org/wiki/Template_talk:Did_you_know
+  - heading "Help us improve this article!" [level=2]
+  - link "Several colourful spinning tops in a row":
+    - /url: https://en.wikipedia.org/wiki/File:A_tough_gang_of_Spinning_Tops.jpg
+    - img "Several colourful spinning tops in a row"
+  - text: Spinning tops This week's article for improvement is
+  - strong:
+    - link "spinning top":
+      - /url: https://en.wikipedia.org/wiki/Spinning_top
+  - text: ", a type of toy with a squat body and a sharp point at the bottom that is designed to be spun on its vertical axis."
+  - paragraph: "You can improve this article by:"
+  - list:
+    - listitem:
+      - text: Expanding the "
+      - link "History":
+        - /url: https://en.wikipedia.org/wiki/Spinning_top#History
+      - text: "\" section"
+    - listitem:
+      - text: Finding
+      - link "reliable sources":
+        - /url: https://en.wikipedia.org/wiki/Wikipedia:Reliable_sources
+      - text: about spinning methods and its physics
+  - paragraph:
+    - text: You can
+    - link "be bold":
+      - /url: https://en.wikipedia.org/wiki/Wikipedia:Be_bold
+    - text: and
+    - strong:
+      - link "start editing the article":
+        - /url: https://en.wikipedia.org/w/index.php?title=Spinning_top&action=edit
+    - text: . Have questions or suggestions? Visit
+    - link "the article's talk page":
+      - /url: https://en.wikipedia.org/wiki/Talk:Spinning_top
+    - text: ", or post at the"
+    - link "Teahouse":
+      - /url: https://en.wikipedia.org/wiki/Wikipedia:Teahouse
+    - text: for general discussion.
+  - list:
+    - listitem:
+      - link "For new editors":
+        - /url: https://en.wikipedia.org/wiki/Help:Introduction
+      - text: ·
+    - listitem:
+      - link "Archive":
+        - /url: https://en.wikipedia.org/wiki/Wikipedia:Articles_for_improvement/Archives/Schedule
+      - text: ·
+    - listitem:
+      - link "What is this?":
+        - /url: https://en.wikipedia.org/wiki/Wikipedia:Articles_for_improvement
+  - heading "In the news" [level=2]
+  - figure:
+    - link "M. John Harrison in 2017":
+      - /url: https://en.wikipedia.org/wiki/File:M_John_Harrison_2017_(A42SClp-9fI).jpg
+      - img "M. John Harrison in 2017"
+    - text: M. John Harrison
+  - list:
+    - listitem:
+      - text: In literature,
+      - link "The End of Everything":
+        - /url: https://en.wikipedia.org/wiki/The_End_of_Everything_(Harrison_novel)
+      - text: by
+      - link "M. John Harrison":
+        - /url: https://en.wikipedia.org/wiki/M._John_Harrison
+      - text: (pictured) wins the
+      - link "Booker Prize":
+        - /url: https://en.wikipedia.org/wiki/Booker_Prize
+      - text: .
+    - listitem:
+      - link "Novaya Gazeta":
+        - /url: https://en.wikipedia.org/wiki/Novaya_Gazeta
+      - text: ", one of Russia's oldest and most prominent independent newspapers, closes under pressure from the Russian authorities."
+    - listitem:
+      - text: In stock car racing,
+      - link "Kyle Larson":
+        - /url: https://en.wikipedia.org/wiki/Kyle_Larson
+      - text: wins
+      - link "the NASCAR Cup Series":
+        - /url: https://en.wikipedia.org/wiki/2026_NASCAR_Cup_Series
+      - text: .
+    - listitem:
+      - link "A mass shooting":
+        - /url: https://en.wikipedia.org/wiki/2026_Kraków_shooting
+      - text: in the
+      - link "Main Square":
+        - /url: https://en.wikipedia.org/wiki/Main_Square,_Kraków
+      - text: of
+      - link "Kraków":
+        - /url: https://en.wikipedia.org/wiki/Kraków
+      - text: ", Poland, leaves six people dead and sixteen others injured."
+  - text: "Ongoing:"
+  - list:
+    - listitem:
+      - link "Iran war":
+        - /url: https://en.wikipedia.org/wiki/2026_Iran_war
+      - text: ·
+    - listitem:
+      - link "Russo-Ukrainian war":
+        - /url: https://en.wikipedia.org/wiki/Russo-Ukrainian_war_(2022–present)
+      - list:
+        - listitem:
+          - text: (
+          - link "timeline":
+            - /url: https://en.wikipedia.org/wiki/Timeline_of_the_Russo-Ukrainian_war_(1_September_2026_–_present)
+          - text: )
+      - text: ·
+    - listitem:
+      - link "Yemen offensives":
+        - /url: https://en.wikipedia.org/wiki/2026_Yemen_offensives
+  - link "Recent deaths":
+    - /url: https://en.wikipedia.org/wiki/Deaths_in_2026
+  - text: ":"
+  - list:
+    - listitem:
+      - link "Lloyd Geering":
+        - /url: https://en.wikipedia.org/wiki/Lloyd_Geering
+      - text: ·
+    - listitem:
+      - link "Solange Alexandre":
+        - /url: https://en.wikipedia.org/wiki/Solange_Alexandre
+      - text: ·
+    - listitem:
+      - link "Peter Jaroš":
+        - /url: https://en.wikipedia.org/wiki/Peter_Jaroš
+      - text: ·
+    - listitem:
+      - link "Donnie Dunagan":
+        - /url: https://en.wikipedia.org/wiki/Donnie_Dunagan
+      - text: ·
+    - listitem:
+      - link "Hubert Aiwanger":
+        - /url: https://en.wikipedia.org/wiki/Hubert_Aiwanger
+      - text: ·
+    - listitem:
+      - link "Jesús de Miguel":
+        - /url: https://en.wikipedia.org/wiki/Jesús_de_Miguel
+  - list:
+    - listitem:
+      - link "More current events":
+        - /url: https://en.wikipedia.org/wiki/Portal:Current_events
+      - text: ·
+    - listitem:
+      - link "Nominate an article":
+        - /url: https://en.wikipedia.org/wiki/Wikipedia:In_the_news/Candidates
+  - heading "On this day" [level=2]
+  - paragraph:
+    - link "November 12":
+      - /url: https://en.wikipedia.org/wiki/November_12
+  - link "Corozal":
+    - /url: https://en.wikipedia.org/wiki/File:Ladder_dredge_Corozal_working_on_Cucaracha_slide.jpg
+    - img "Corozal"
+  - text: Corozal
+  - list:
+    - listitem:
+      - link "1911":
+        - /url: https://en.wikipedia.org/wiki/1911
+      - text: – The
+      - link "Corozal":
+        - /url: https://en.wikipedia.org/wiki/Corozal_(dredger)
+      - text: (pictured), at the time the most powerful dredger ever built, was launched in
+      - link "Renfrew":
+        - /url: https://en.wikipedia.org/wiki/Renfrew
+      - text: ", Scotland, for service in the construction of the"
+      - link "Panama Canal":
+        - /url: https://en.wikipedia.org/wiki/Panama_Canal
+      - text: .
+    - listitem:
+      - link "1956":
+        - /url: https://en.wikipedia.org/wiki/1956
+      - text: –
+      - link "Suez Crisis":
+        - /url: https://en.wikipedia.org/wiki/Suez_Crisis
+      - text: ": During an invasion of"
+      - link "Rafah":
+        - /url: https://en.wikipedia.org/wiki/Rafah
+      - text: ", Israeli soldiers"
+      - link "shot and killed":
+        - /url: https://en.wikipedia.org/wiki/1956_Rafah_massacre
+      - text: an estimated 111 Palestinian refugees and local inhabitants.
+    - listitem:
+      - link "1973":
+        - /url: https://en.wikipedia.org/wiki/1973
+      - text: – The first episode of
+      - link "Last of the Summer Wine":
+        - /url: https://en.wikipedia.org/wiki/Last_of_the_Summer_Wine
+      - text: ", the longest-running television sitcom in history, premiered on the"
+      - link "BBC":
+        - /url: https://en.wikipedia.org/wiki/BBC
+      - text: .
+    - listitem:
+      - link "2001":
+        - /url: https://en.wikipedia.org/wiki/2001
+      - text: –
+      - link "American Airlines Flight 587":
+        - /url: https://en.wikipedia.org/wiki/American_Airlines_Flight_587
+      - text: crashed into residential buildings shortly after takeoff from
+      - link "John F. Kennedy International Airport":
+        - /url: https://en.wikipedia.org/wiki/John_F._Kennedy_International_Airport
+      - text: in New York, killing 265 people.
+    - listitem:
+      - link "2006":
+        - /url: https://en.wikipedia.org/wiki/2006
+      - text: –
+      - link "South Ossetia":
+        - /url: https://en.wikipedia.org/wiki/South_Ossetia
+      - text: held
+      - link "a referendum on independence from Georgia":
+        - /url: https://en.wikipedia.org/wiki/2006_South_Ossetian_independence_referendum
+      - text: ; more than 99 percent of voters were in favour of maintaining the region's status as a
+      - link "de facto independent state":
+        - /url: https://en.wikipedia.org/wiki/List_of_states_with_limited_recognition
+      - text: .
+  - list:
+    - listitem:
+      - link "Sun Yat-sen":
+        - /url: https://en.wikipedia.org/wiki/Sun_Yat-sen
+      - text: (b. 1866) ·
+    - listitem:
+      - link "Robert Goff, Baron Goff of Chieveley":
+        - /url: https://en.wikipedia.org/wiki/Robert_Goff,_Baron_Goff_of_Chieveley
+      - text: (b. 1926) ·
+    - listitem:
+      - link "Edward Soriano":
+        - /url: https://en.wikipedia.org/wiki/Edward_Soriano
+      - text: (b. 1946) ·
+    - listitem:
+      - link "Ansgar Løvold":
+        - /url: https://en.wikipedia.org/wiki/Ansgar_Løvold
+      - text: (d. 1961)
+  - text: "More anniversaries:"
+  - list:
+    - listitem:
+      - link "November 11":
+        - /url: https://en.wikipedia.org/wiki/November_11
+      - text: ·
+    - listitem:
+      - link "November 12":
+        - /url: https://en.wikipedia.org/wiki/November_12
+      - text: ·
+    - listitem:
+      - link "November 13":
+        - /url: https://en.wikipedia.org/wiki/November_13
+  - list:
+    - listitem:
+      - link "Archive":
+        - /url: https://en.wikipedia.org/wiki/Wikipedia:Selected_anniversaries/November
+      - text: ·
+    - listitem:
+      - link "By email":
+        - /url: https://lists.wikimedia.org/postorius/lists/daily-article-l.lists.wikimedia.org/
+      - text: ·
+    - listitem:
+      - link "List of days of the year":
+        - /url: https://en.wikipedia.org/wiki/List_of_days_of_the_year
+      - text: ·
+    - listitem:
+      - link "About":
+        - /url: https://en.wikipedia.org/wiki/Wikipedia:Selected_anniversaries
+  - heading "Today's featured picture" [level=2]
+  - link "Collared lory":
+    - /url: https://en.wikipedia.org/wiki/File:Collared_lory_(Vini_solitaria)_on_octopus_tree_(Heptapleurum_actinophyllum)_Colo-I-Suva.jpg
+    - img "Collared lory"
+  - paragraph:
+    - text: The
+    - link "collared lory":
+      - /url: https://en.wikipedia.org/wiki/Collared_lory
+    - text: (Vini solitaria) is a species of
+    - link "parrot":
+      - /url: https://en.wikipedia.org/wiki/Parrot
+    - text: in the family
+    - link "Psittaculidae":
+      - /url: https://en.wikipedia.org/wiki/Psittaculidae
+    - text: . It is found in Fiji, where it inhabits tropical forests but has also adapted to urban environments, including the capital,
+    - link "Suva":
+      - /url: https://en.wikipedia.org/wiki/Suva
+    - text: . Measuring around 20 centimetres (8 in) in length, it has bright scarlet underparts and cheeks, a purple crown and greenish upperparts. It feeds on fruit, seeds, nectar and blossoms, and is usually found in pairs or small groups. The species nests in tree hollows, sometimes using holes in rotting coconuts still attached to trees. Its colourful feathers were historically prized and traded between Fiji, Samoa and Tonga. This collared lory, perched on an
+    - link "octopus tree":
+      - /url: https://en.wikipedia.org/wiki/Heptapleurum_actinophyllum
+    - text: ", was photographed in"
+    - link "Colo-i-Suva Forest Reserve":
+      - /url: https://en.wikipedia.org/wiki/Colo-i-Suva_Forest_Reserve
+    - text: in south-eastern Fiji.
+  - paragraph:
+    - text: "Photograph credit:"
+    - link "Charles J. Sharp":
+      - /url: https://en.wikipedia.org/wiki/User:Charlesjsharp
+  - text: "Recently featured:"
+  - list:
+    - listitem:
+      - text: "\""
+      - link "Daddy, What Did You Do in the Great War?":
+        - /url: https://en.wikipedia.org/wiki/Template:POTD/2026-11-11
+      - text: "\" ·"
+    - listitem:
+      - link "Vaduz Castle":
+        - /url: https://en.wikipedia.org/wiki/Template:POTD/2026-11-10
+      - text: ·
+    - listitem:
+      - link "Oecophylla longinoda":
+        - /url: https://en.wikipedia.org/wiki/Template:POTD/2026-11-09
+  - list:
+    - listitem:
+      - link "Archive":
+        - /url: https://en.wikipedia.org/wiki/Wikipedia:Picture_of_the_day/Archive
+      - text: ·
+    - listitem:
+      - link "More featured pictures":
+        - /url: https://en.wikipedia.org/wiki/Wikipedia:Featured_pictures
+  - heading "Other areas of Wikipedia" [level=2]
+  - list:
+    - listitem:
+      - link "Community portal":
+        - /url: https://en.wikipedia.org/wiki/Wikipedia:Community_portal
+      - text: – The central hub for editors, with resources, links, tasks, and announcements.
+    - listitem:
+      - link "Village pump":
+        - /url: https://en.wikipedia.org/wiki/Wikipedia:Village_pump
+      - text: – Forum for discussions about Wikipedia itself, including policies and technical issues.
+    - listitem:
+      - link "Site news":
+        - /url: https://en.wikipedia.org/wiki/Wikipedia:News
+      - text: – Sources of news about Wikipedia and the broader Wikimedia movement.
+    - listitem:
+      - link "Teahouse":
+        - /url: https://en.wikipedia.org/wiki/Wikipedia:Teahouse
+      - text: – Ask basic questions about using or editing Wikipedia.
+    - listitem:
+      - link "Help desk":
+        - /url: https://en.wikipedia.org/wiki/Wikipedia:Help_desk
+      - text: – Ask questions about using or editing Wikipedia.
+    - listitem:
+      - link "Reference desk":
+        - /url: https://en.wikipedia.org/wiki/Wikipedia:Reference_desk
+      - text: – Ask research questions about encyclopedic topics.
+    - listitem:
+      - link "Content portals":
+        - /url: https://en.wikipedia.org/wiki/Wikipedia:Contents/Portals
+      - text: – A unique way to navigate the encyclopedia.
+  - heading "Wikipedia's sister projects" [level=2]
+  - paragraph:
+    - text: Wikipedia is written by volunteer editors and hosted by the
+    - link "Wikimedia Foundation":
+      - /url: https://en.wikipedia.org/wiki/Wikimedia_Foundation
+    - text: ", a non-profit organization that also hosts a range of other volunteer"
+    - link "projects":
+      - /url: https://wikimediafoundation.org/what-we-do/wikimedia-projects/
+    - text: ":"
+  - list:
+    - listitem:
+      - link "Wikimedia Commons logo":
+        - /url: https://en.wikipedia.org/wiki/File:Commons-logo.svg
+        - img "Wikimedia Commons logo"
+      - link "Commons":
+        - /url: https://commons.wikimedia.org/wiki/
+      - text: Free media repository
+    - listitem:
+      - link "MediaWiki logo":
+        - /url: https://en.wikipedia.org/wiki/File:MediaWiki-2020-icon.svg
+        - img "MediaWiki logo"
+      - link "MediaWiki":
+        - /url: https://www.mediawiki.org/wiki/
+      - text: Wiki software development
+    - listitem:
+      - link "Meta-Wiki":
+        - /url: https://meta.wikimedia.org/wiki/
+      - text: Wikimedia project coordination
+    - listitem:
+      - link "Wikibooks logo":
+        - /url: https://en.wikipedia.org/wiki/File:Wikibooks-logo.svg
+        - img "Wikibooks logo"
+      - link "Wikibooks":
+        - /url: https://en.wikibooks.org/wiki/
+      - text: Free textbooks and manuals
+    - listitem:
+      - link "Wikidata":
+        - /url: https://www.wikidata.org/wiki/
+      - text: Free knowledge base
+    - listitem:
+      - link "Wikifunctions logo":
+        - /url: https://en.wikipedia.org/wiki/File:Wikifunctions-logo.svg
+        - img "Wikifunctions logo"
+      - link "Wikifunctions":
+        - /url: https://www.wikifunctions.org/wiki/
+      - text: Catalog of computer functions
+    - listitem:
+      - link "Wikiquote":
+        - /url: https://en.wikiquote.org/wiki/
+      - text: Collection of quotations
+    - listitem:
+      - link "Wikisource logo":
+        - /url: https://en.wikipedia.org/wiki/File:Wikisource-logo.svg
+        - img "Wikisource logo"
+      - link "Wikisource":
+        - /url: https://en.wikisource.org/wiki/
+      - text: Free-content library
+    - listitem:
+      - link "Wikispecies logo":
+        - /url: https://en.wikipedia.org/wiki/File:Wikispecies-logo.svg
+        - img "Wikispecies logo"
+      - link "Wikispecies":
+        - /url: https://species.wikimedia.org/wiki/
+      - text: Directory of species
+    - listitem:
+      - link "Wikiversity logo":
+        - /url: https://en.wikipedia.org/wiki/File:Wikiversity_logo_2017.svg
+        - img "Wikiversity logo"
+      - link "Wikiversity":
+        - /url: https://en.wikiversity.org/wiki/
+      - text: Free learning tools
+    - listitem:
+      - link "Wikivoyage logo":
+        - /url: https://en.wikipedia.org/wiki/File:Wikivoyage-Logo-v3-icon.svg
+        - img "Wikivoyage logo"
+      - link "Wikivoyage":
+        - /url: https://en.wikivoyage.org/wiki/
+      - text: Free travel guide
+    - listitem:
+      - link "Wiktionary logo":
+        - /url: https://en.wikipedia.org/wiki/File:Wiktionary-logo-en-v2.svg
+        - img "Wiktionary logo"
+      - link "Wiktionary":
+        - /url: https://en.wiktionary.org/wiki/
+      - text: Dictionary and thesaurus
+  - heading "Wikipedia languages" [level=2]
+  - paragraph:
+    - text: This Wikipedia is written in
+    - link "English":
+      - /url: https://en.wikipedia.org/wiki/English_language
+    - text: . Many
+    - link "other Wikipedias are available":
+      - /url: https://meta.wikimedia.org/wiki/List%20of%20Wikipedias
+    - text: ; some of the largest are listed below.
+  - list:
+    - listitem:
+      - heading "1,000,000+ articles" [level=3]
+      - list:
+        - listitem:
+          - link "العربية":
+            - /url: https://ar.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Deutsch":
+            - /url: https://de.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Español":
+            - /url: https://es.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "فارسی":
+            - /url: https://fa.wikipedia.org/wiki/
+          - text: ‎ ·
+        - listitem:
+          - link "Français":
+            - /url: https://fr.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Italiano":
+            - /url: https://it.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Nederlands":
+            - /url: https://nl.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "日本語":
+            - /url: https://ja.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Polski":
+            - /url: https://pl.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Português":
+            - /url: https://pt.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Русский":
+            - /url: https://ru.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Svenska":
+            - /url: https://sv.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Українська":
+            - /url: https://uk.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Tiếng Việt":
+            - /url: https://vi.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "中文":
+            - /url: https://zh.wikipedia.org/wiki/
+    - listitem:
+      - heading "250,000+ articles" [level=3]
+      - list:
+        - listitem:
+          - link "Bahasa Indonesia":
+            - /url: https://id.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Bahasa Melayu":
+            - /url: https://ms.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Bân-lâm-gú":
+            - /url: https://zh-min-nan.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Български":
+            - /url: https://bg.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Català":
+            - /url: https://ca.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Čeština":
+            - /url: https://cs.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Dansk":
+            - /url: https://da.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Eesti":
+            - /url: https://et.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Ελληνικά":
+            - /url: https://el.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Esperanto":
+            - /url: https://eo.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Euskara":
+            - /url: https://eu.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "עברית":
+            - /url: https://he.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Հայերեն":
+            - /url: https://hy.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "한국어":
+            - /url: https://ko.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Magyar":
+            - /url: https://hu.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Norsk bokmål":
+            - /url: https://no.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Română":
+            - /url: https://ro.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Simple English":
+            - /url: https://simple.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Slovenčina":
+            - /url: https://sk.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Srpski":
+            - /url: https://sr.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Srpskohrvatski":
+            - /url: https://sh.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Suomi":
+            - /url: https://fi.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Türkçe":
+            - /url: https://tr.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Oʻzbekcha":
+            - /url: https://uz.wikipedia.org/wiki/
+    - listitem:
+      - heading "50,000+ articles" [level=3]
+      - list:
+        - listitem:
+          - link "Asturianu":
+            - /url: https://ast.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Azərbaycanca":
+            - /url: https://az.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "বাংলা":
+            - /url: https://bn.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Bosanski":
+            - /url: https://bs.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "کوردی":
+            - /url: https://ckb.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Frysk":
+            - /url: https://fy.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Gaeilge":
+            - /url: https://ga.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Galego":
+            - /url: https://gl.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Hrvatski":
+            - /url: https://hr.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "ქართული":
+            - /url: https://ka.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Kurdî":
+            - /url: https://ku.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Latviešu":
+            - /url: https://lv.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Lietuvių":
+            - /url: https://lt.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "മലയാളം":
+            - /url: https://ml.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Македонски":
+            - /url: https://mk.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "မြန်မာဘာသာ":
+            - /url: https://my.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Norsk nynorsk":
+            - /url: https://nn.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "ਪੰਜਾਬੀ":
+            - /url: https://pa.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Shqip":
+            - /url: https://sq.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "Slovenščina":
+            - /url: https://sl.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "ไทย":
+            - /url: https://th.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "తెలుగు":
+            - /url: https://te.wikipedia.org/wiki/
+          - text: ·
+        - listitem:
+          - link "اردو":
+            - /url: https://ur.wikipedia.org/wiki/
+  - button "349 languages"
+- contentinfo:
+  - list:
+    - listitem:
+      - text: Page was rendered with
+      - link "Parsoid":
+        - /url: https://www.mediawiki.org/wiki/Special:MyLanguage/Parsoid
+      - text: .
+    - listitem:
+      - text: Text is available under the
+      - link "Creative Commons Attribution-ShareAlike 4.0 License":
+        - /url: /wiki/Wikipedia:Text_of_the_Creative_Commons_Attribution-ShareAlike_4.0_International_License
+      - text: ; additional terms may apply. By using this site, you agree to the
+      - link "Terms of Use":
+        - /url: https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Terms_of_Use
+      - text: and
+      - link "Privacy Policy":
+        - /url: https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Privacy_policy
+      - text: . Wikipedia® is a registered trademark of the
+      - link "Wikimedia Foundation, Inc.":
+        - /url: https://wikimediafoundation.org/
+      - text: ", a non-profit organization."
+  - list:
+    - listitem:
+      - link "Privacy policy":
+        - /url: https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Privacy_policy
+    - listitem:
+      - link "About Wikipedia":
+        - /url: /wiki/Wikipedia:About
+    - listitem:
+      - link "Disclaimers":
+        - /url: /wiki/Wikipedia:General_disclaimer
+    - listitem:
+      - link "Contact Wikipedia":
+        - /url: //en.wikipedia.org/wiki/Wikipedia:Contact_us
+    - listitem:
+      - link "Legal & safety contacts":
+        - /url: https://foundation.wikimedia.org/wiki/Special:MyLanguage/Legal:Wikimedia_Foundation_Legal_and_Safety_Contact_Information
+    - listitem:
+      - link "Code of Conduct":
+        - /url: https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Universal_Code_of_Conduct
+    - listitem:
+      - link "Developers":
+        - /url: https://developer.wikimedia.org
+    - listitem:
+      - link "Statistics":
+        - /url: https://stats.wikimedia.org/#/en.wikipedia.org
+    - listitem:
+      - link "Cookie statement":
+        - /url: https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Cookie_statement
+    - listitem:
+      - link "Mobile view":
+        - /url: //en.wikipedia.org/w/index.php?title=Main_Page&mobileaction=toggle_view_mobile
+  - list:
+    - listitem:
+      - link "Wikimedia Foundation":
+        - /url: https://www.wikimedia.org/
+        - img "Wikimedia Foundation"
+    - listitem:
+      - link "Powered by MediaWiki":
+        - /url: https://www.mediawiki.org/
+        - img "Powered by MediaWiki"
