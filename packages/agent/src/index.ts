@@ -4,6 +4,12 @@ export {
   launchBrowser,
 } from "./browser.js";
 export {
+  type ExecuteOptions,
+  execute,
+  resolveSecrets,
+  resolveTarget,
+} from "./execute.js";
+export {
   type ObserveOptions,
   observe,
   type Redaction,
