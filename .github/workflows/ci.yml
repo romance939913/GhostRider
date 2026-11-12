@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  TURBO_TELEMETRY_DISABLED: 1
+
+jobs:
+  check:
+    name: Lint, typecheck, test, build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+
+      # Installs pnpm (from packageManager) + Node 26, caches the store, runs pnpm install
+      - uses: pnpm/setup@v1
+        with:
+          runtime: node@26
+          cache: true
+
+      - name: Restore Turbo cache
+        uses: actions/cache@v4
+        with:
+          path: .turbo/cache
+          key: turbo-${{ runner.os }}-${{ github.sha }}
+          restore-keys: turbo-${{ runner.os }}-
+
+      - run: pnpm exec biome ci .
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+
+  smoke:
+    name: Docker Compose smoke test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Boot the full stack
+        run: docker compose up --build --wait --wait-timeout 180
+
+      - name: API /health returns 200
+        run: test "$(curl -s -o /dev/null -w '%{http_code}' localhost:4000/health)" = 200
+
+      - name: Web renders API status (web → api inside compose)
+        run: curl -sf localhost:3000 | grep -q '>ok</strong>'
+
+      - name: Dump logs on failure
+        if: failure()
+        run: docker compose logs --no-color
