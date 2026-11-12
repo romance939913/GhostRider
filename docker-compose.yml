@@ -1,5 +1,7 @@
 name: ghostrider
 
+x-database-url: &database-url postgres://${POSTGRES_USER:-ghostrider}:${POSTGRES_PASSWORD:-ghostrider}@postgres:5432/${POSTGRES_DB:-ghostrider}
+
 services:
   postgres:
     image: postgres:18-alpine
@@ -26,6 +28,43 @@ services:
       - redis-data:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  migrate:
+    build: { context: ., target: migrate }
+    environment:
+      DATABASE_URL: *database-url
+    depends_on:
+      postgres: { condition: service_healthy }
+    restart: "no"
+
+  api:
+    build: { context: ., target: api }
+    environment:
+      DATABASE_URL: *database-url
+      REDIS_URL: redis://redis:6379
+      APP_VERSION: ${APP_VERSION:-dev}
+    ports: ["4000:4000"]
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+      redis: { condition: service_healthy }
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:4000/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  web:
+    build: { context: ., target: web }
+    environment:
+      API_URL: http://api:4000
+    ports: ["3000:3000"]
+    depends_on:
+      api: { condition: service_started }
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:3000/healthz"]
       interval: 5s
       timeout: 3s
       retries: 10
