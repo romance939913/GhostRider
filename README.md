@@ -53,16 +53,16 @@ See [architecture.md](docs/architecture.md) for the components, job flow and seq
 
 ## Status
 
-| Milestone | What it delivers                                                          | Status |
-| --------- | ------------------------------------------------------------------------- | ------ |
-| **M0**    | Design docs, ADRs, monorepo, Docker Compose stack, CI                     | ✅ Done |
-| **M1**    | Agent spike: English goal → agent drives Playwright → step trace          | Next   |
-| **M2**    | Compiler: trace → deterministic Playwright script                         |        |
-| **M3**    | Platform core: auth, journeys, BullMQ queues and schedules, workers       |        |
-| **M4**    | Slack and email alerts, run history, step replay viewer                   |        |
-| **M5**    | Hardening and launch: domain verification, encrypted credentials, deploy  |        |
-| **M6–M7** | AI diagnosis and repair of failed runs; model evals                       |        |
-| **M8**    | Launch to real users; public cost and reliability metrics                 |        |
+| Milestone | What it delivers                                                         | Status  |
+| --------- | ------------------------------------------------------------------------ | ------- |
+| **M0**    | Design docs, ADRs, monorepo, Docker Compose stack, CI                    | ✅ Done |
+| **M1**    | Agent spike: English goal → agent drives Playwright → step trace         | Next    |
+| **M2**    | Compiler: trace → deterministic Playwright script                        |         |
+| **M3**    | Platform core: auth, journeys, BullMQ queues and schedules, workers      |         |
+| **M4**    | Slack and email alerts, run history, step replay viewer                  |         |
+| **M5**    | Hardening and launch: domain verification, encrypted credentials, deploy |         |
+| **M6–M7** | AI diagnosis and repair of failed runs; model evals                      |         |
+| **M8**    | Launch to real users; public cost and reliability metrics                |         |
 
 ## Tech stack
 
@@ -113,17 +113,17 @@ pnpm dev                                  # API on :4000, web on :3000, with hot
 
 ### Useful commands
 
-| Command                       | What it does                                              |
-| ----------------------------- | --------------------------------------------------------- |
-| `pnpm dev`                    | Run the API and web app with hot reload                   |
-| `pnpm dev:api` / `dev:web`    | Run one of them                                           |
-| `pnpm build`                  | Build every package (cached by Turborepo)                 |
-| `pnpm test`                   | Run all tests (Vitest)                                    |
-| `pnpm typecheck`              | Type-check every package                                  |
-| `pnpm lint`                   | Lint and check formatting (Biome)                         |
-| `pnpm format`                 | Fix formatting automatically                              |
-| `docker compose up --build`   | Build and run the full stack in containers                |
-| `docker compose down`         | Stop the stack (add `-v` to delete Postgres and Redis data) |
+| Command                     | What it does                                                |
+| --------------------------- | ----------------------------------------------------------- |
+| `pnpm dev`                  | Run the API and web app with hot reload                     |
+| `pnpm dev:api` / `dev:web`  | Run one of them                                             |
+| `pnpm build`                | Build every package (cached by Turborepo)                   |
+| `pnpm test`                 | Run all tests (Vitest)                                      |
+| `pnpm typecheck`            | Type-check every package                                    |
+| `pnpm lint`                 | Lint and check formatting (Biome)                           |
+| `pnpm format`               | Fix formatting automatically                                |
+| `docker compose up --build` | Build and run the full stack in containers                  |
+| `docker compose down`       | Stop the stack (add `-v` to delete Postgres and Redis data) |
 
 Every push and pull request runs CI: lint, typecheck, tests and build, plus a smoke test that boots the full Compose stack and checks `/health` and the web page.
 
@@ -157,10 +157,10 @@ Dockerfile          Multi-stage build with api, web and migrate targets
 
 _Placeholder: the other rows get filled in after a proper comparison (M8)._
 
-|                                 | Authoring                              | AI at run time                         | Self-healing                      | Built for                  |
-| ------------------------------- | -------------------------------------- | -------------------------------------- | --------------------------------- | -------------------------- |
-| **GhostRider**                  | Plain English, recorded by an AI agent | None; compiled Playwright replays      | Planned (M6), always disclosed    | Small teams, production    |
-| Ghost Inspector                 | _TBD_                                  | _TBD_                                  | _TBD_                             | _TBD_                      |
-| Checkly                         | _TBD_                                  | _TBD_                                  | _TBD_                             | _TBD_                      |
-| Datadog Synthetic Monitoring    | _TBD_                                  | _TBD_                                  | _TBD_                             | _TBD_                      |
-| Hand-written Playwright + cron  | Code                                   | None                                   | None                              | Teams with time to maintain it |
+|                                | Authoring                              | AI at run time                    | Self-healing                   | Built for                      |
+| ------------------------------ | -------------------------------------- | --------------------------------- | ------------------------------ | ------------------------------ |
+| **GhostRider**                 | Plain English, recorded by an AI agent | None; compiled Playwright replays | Planned (M6), always disclosed | Small teams, production        |
+| Ghost Inspector                | _TBD_                                  | _TBD_                             | _TBD_                          | _TBD_                          |
+| Checkly                        | _TBD_                                  | _TBD_                             | _TBD_                          | _TBD_                          |
+| Datadog Synthetic Monitoring   | _TBD_                                  | _TBD_                             | _TBD_                          | _TBD_                          |
+| Hand-written Playwright + cron | Code                                   | None                              | None                           | Teams with time to maintain it |
