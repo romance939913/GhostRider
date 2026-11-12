@@ -21,7 +21,9 @@ async function observeHtml(html: string, options?: ObserveOptions) {
 
 describe("observe", () => {
   it("returns the title, URL and snapshot", async () => {
-    const observation = await observeHtml("<title>Fixture page</title><h1>Hello</h1><button>Go</button>");
+    const observation = await observeHtml(
+      "<title>Fixture page</title><h1>Hello</h1><button>Go</button>",
+    );
 
     expect(observation.title).toBe("Fixture page");
     expect(observation.url).toBe("about:blank");
@@ -32,9 +34,13 @@ describe("observe", () => {
   });
 
   it("shows the value typed into a text field", async () => {
-    const observation = await observeHtml('<label>Username <input value="standard_user"></label>');
+    const observation = await observeHtml(
+      '<label>Username <input value="standard_user"></label>',
+    );
 
-    expect(observation.snapshot).toContain('- textbox "Username": standard_user');
+    expect(observation.snapshot).toContain(
+      '- textbox "Username": standard_user',
+    );
   });
 
   it("masks the value of password fields", async () => {
@@ -47,11 +53,16 @@ describe("observe", () => {
   });
 
   it("replaces known secret values with their placeholders", async () => {
-    const observation = await observeHtml('<label>API key <input value="sk-live-1234567890"></label>', {
-      secrets: { apiKey: "sk-live-1234567890" },
-    });
+    const observation = await observeHtml(
+      '<label>API key <input value="sk-live-1234567890"></label>',
+      {
+        secrets: { apiKey: "sk-live-1234567890" },
+      },
+    );
 
-    expect(observation.snapshot).toContain('- textbox "API key": {{secrets.apiKey}}');
+    expect(observation.snapshot).toContain(
+      '- textbox "API key": {{secrets.apiKey}}',
+    );
     expect(observation.snapshot).not.toContain("sk-live-1234567890");
   });
 
@@ -78,9 +89,13 @@ describe("observe", () => {
   it("compacts large pages to the budget and keeps the actionable element", async () => {
     const paragraphs = Array.from(
       { length: 300 },
-      (_, i) => `<p>Paragraph ${i}: some long marketing copy that the agent never needs to read.</p>`,
+      (_, i) =>
+        `<p>Paragraph ${i}: some long marketing copy that the agent never needs to read.</p>`,
     ).join("");
-    const observation = await observeHtml(`${paragraphs}<button>Buy now</button>`, { budgetChars: 2_000 });
+    const observation = await observeHtml(
+      `${paragraphs}<button>Buy now</button>`,
+      { budgetChars: 2_000 },
+    );
 
     expect(observation.snapshotChars).toBeGreaterThan(2_000);
     expect(observation.snapshot.length).toBeLessThanOrEqual(2_000);
@@ -101,6 +116,8 @@ describe("redactValues", () => {
   });
 
   it("ignores empty values", () => {
-    expect(redactValues("unchanged", [{ value: "", replacement: "x" }])).toBe("unchanged");
+    expect(redactValues("unchanged", [{ value: "", replacement: "x" }])).toBe(
+      "unchanged",
+    );
   });
 });

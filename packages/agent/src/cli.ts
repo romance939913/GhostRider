@@ -58,9 +58,14 @@ function parseCliArgs(argv: string[]): CliArgs | { error: string } | "help" {
     return { error: `URL must be http or https, got ${parsed.protocol}` };
   }
 
-  const budgetChars = values.budget === undefined ? DEFAULT_SNAPSHOT_BUDGET_CHARS : Number(values.budget);
+  const budgetChars =
+    values.budget === undefined
+      ? DEFAULT_SNAPSHOT_BUDGET_CHARS
+      : Number(values.budget);
   if (!Number.isInteger(budgetChars) || budgetChars <= 0) {
-    return { error: `--budget must be a positive integer, got ${values.budget}` };
+    return {
+      error: `--budget must be a positive integer, got ${values.budget}`,
+    };
   }
 
   return {
@@ -93,7 +98,9 @@ async function main(): Promise<number> {
     console.log(`URL:   ${observation.url}`);
     console.log(`Title: ${observation.title}`);
     if (args.goal) console.log(`Goal:  ${args.goal}`);
-    const compacted = observation.truncated ? ` → ${observation.snapshot.length} chars (compacted)` : "";
+    const compacted = observation.truncated
+      ? ` → ${observation.snapshot.length} chars (compacted)`
+      : "";
     console.log(`Snapshot: ${observation.snapshotChars} chars${compacted}\n`);
     console.log(observation.snapshot);
     return 0;

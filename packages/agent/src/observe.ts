@@ -24,12 +24,19 @@ export interface ObserveOptions {
  * "load" is still worth looking at.
  */
 export async function waitForSettled(page: Page): Promise<void> {
-  await page.waitForLoadState("load", { timeout: LOAD_TIMEOUT_MS }).catch(() => {});
-  await page.waitForLoadState("networkidle", { timeout: NETWORK_IDLE_TIMEOUT_MS }).catch(() => {});
+  await page
+    .waitForLoadState("load", { timeout: LOAD_TIMEOUT_MS })
+    .catch(() => {});
+  await page
+    .waitForLoadState("networkidle", { timeout: NETWORK_IDLE_TIMEOUT_MS })
+    .catch(() => {});
 }
 
 /** What the agent "sees" before choosing its next action. */
-export async function observe(page: Page, options: ObserveOptions = {}): Promise<TraceObservation> {
+export async function observe(
+  page: Page,
+  options: ObserveOptions = {},
+): Promise<TraceObservation> {
   await waitForSettled(page);
 
   const raw = await page.locator("body").ariaSnapshot();
@@ -38,7 +45,9 @@ export async function observe(page: Page, options: ObserveOptions = {}): Promise
   // Playwright includes the value of every input, password fields included.
   const passwordValues = await page
     .locator('input[type="password"]')
-    .evaluateAll((inputs) => inputs.map((input) => (input as HTMLInputElement).value));
+    .evaluateAll((inputs) =>
+      inputs.map((input) => (input as HTMLInputElement).value),
+    );
   const redacted = redactValues(raw, [
     ...Object.entries(options.secrets ?? {}).map(([name, value]) => ({
       value,
@@ -71,7 +80,9 @@ export interface Redaction {
  * value as it appears inside a quoted YAML string (escaped quotes/backslashes).
  */
 export function redactValues(text: string, redactions: Redaction[]): string {
-  const sorted = redactions.filter((r) => r.value.length > 0).sort((a, b) => b.value.length - a.value.length);
+  const sorted = redactions
+    .filter((r) => r.value.length > 0)
+    .sort((a, b) => b.value.length - a.value.length);
 
   let result = text;
   for (const { value, replacement } of sorted) {

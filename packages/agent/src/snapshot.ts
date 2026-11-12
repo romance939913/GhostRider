@@ -26,7 +26,16 @@ export const INTERACTIVE_ROLES = new Set([
 ]);
 
 /** Leaf roles that are just content: dropped once the page is over budget. */
-const CONTENT_LEAF_ROLES = new Set(["text", "paragraph", "img", "time", "status", "blockquote", "strong", "emphasis"]);
+const CONTENT_LEAF_ROLES = new Set([
+  "text",
+  "paragraph",
+  "img",
+  "time",
+  "status",
+  "blockquote",
+  "strong",
+  "emphasis",
+]);
 
 /** Wrapper roles with no meaning of their own when unnamed: replaced by their children. */
 const STRUCTURAL_ROLES = new Set([
@@ -63,7 +72,10 @@ interface SnapshotNode {
   children: SnapshotNode[];
 }
 
-export function compactSnapshot(raw: string, options: CompactOptions = {}): CompactResult {
+export function compactSnapshot(
+  raw: string,
+  options: CompactOptions = {},
+): CompactResult {
   const budget = options.budgetChars ?? DEFAULT_SNAPSHOT_BUDGET_CHARS;
   if (raw.length <= budget) return { snapshot: raw, truncated: false };
 
@@ -89,7 +101,9 @@ export function compactSnapshot(raw: string, options: CompactOptions = {}): Comp
 
 /** Pass 1: link targets. The agent clicks links by name, not by URL. */
 function removeUrls(nodes: SnapshotNode[]): SnapshotNode[] {
-  return mapTree(nodes, (node) => (node.head.startsWith("/url:") ? [] : [node]));
+  return mapTree(nodes, (node) =>
+    node.head.startsWith("/url:") ? [] : [node],
+  );
 }
 
 /** Pass 2: long inline text, e.g. `paragraph: <a whole paragraph>`. Names are never shortened. */
@@ -104,14 +118,20 @@ function shortenValues(nodes: SnapshotNode[]): SnapshotNode[] {
 /** Pass 3: content-only leaves (text, paragraphs, images). Headings stay as landmarks. */
 function removeContentLeaves(nodes: SnapshotNode[]): SnapshotNode[] {
   return mapTree(nodes, (node) =>
-    node.children.length === 0 && CONTENT_LEAF_ROLES.has(roleOf(node.head)) ? [] : [node],
+    node.children.length === 0 && CONTENT_LEAF_ROLES.has(roleOf(node.head))
+      ? []
+      : [node],
   );
 }
 
 /** Pass 4: unnamed wrappers (list, listitem, group, ...) are replaced by their children. */
 function unwrapStructural(nodes: SnapshotNode[]): SnapshotNode[] {
   return mapTree(nodes, (node) => {
-    if (!STRUCTURAL_ROLES.has(roleOf(node.head)) || nameOf(node.head) !== undefined) return [node];
+    if (
+      !STRUCTURAL_ROLES.has(roleOf(node.head)) ||
+      nameOf(node.head) !== undefined
+    )
+      return [node];
     return node.children;
   });
 }
@@ -122,7 +142,8 @@ function keepInteractiveOnly(nodes: SnapshotNode[], budget: number): string {
   const walk = (list: SnapshotNode[]) => {
     for (const node of list) {
       const role = roleOf(node.head);
-      if (INTERACTIVE_ROLES.has(role) || role === "heading") lines.push(`- ${node.head}`);
+      if (INTERACTIVE_ROLES.has(role) || role === "heading")
+        lines.push(`- ${node.head}`);
       walk(node.children);
     }
   };
@@ -145,7 +166,9 @@ function keepInteractiveOnly(nodes: SnapshotNode[], budget: number): string {
 
 function parse(raw: string): SnapshotNode[] {
   const root: SnapshotNode = { head: "", children: [] };
-  const stack: Array<{ indent: number; node: SnapshotNode }> = [{ indent: -1, node: root }];
+  const stack: Array<{ indent: number; node: SnapshotNode }> = [
+    { indent: -1, node: root },
+  ];
 
   for (const line of raw.split("\n")) {
     const match = /^( *)- (.*)$/.exec(line);
@@ -161,7 +184,8 @@ function parse(raw: string): SnapshotNode[] {
   // A line ending in ":" introduced children; the ":" is re-added on serialize.
   const stripColons = (list: SnapshotNode[]) => {
     for (const node of list) {
-      if (node.children.length > 0 && node.head.endsWith(":")) node.head = node.head.slice(0, -1);
+      if (node.children.length > 0 && node.head.endsWith(":"))
+        node.head = node.head.slice(0, -1);
       stripColons(node.children);
     }
   };
@@ -172,15 +196,23 @@ function parse(raw: string): SnapshotNode[] {
 function serialize(nodes: SnapshotNode[], depth = 0): string {
   const lines: string[] = [];
   for (const node of nodes) {
-    lines.push(`${INDENT.repeat(depth)}- ${node.head}${node.children.length > 0 ? ":" : ""}`);
-    if (node.children.length > 0) lines.push(serialize(node.children, depth + 1));
+    lines.push(
+      `${INDENT.repeat(depth)}- ${node.head}${node.children.length > 0 ? ":" : ""}`,
+    );
+    if (node.children.length > 0)
+      lines.push(serialize(node.children, depth + 1));
   }
   return lines.join("\n");
 }
 
 /** Applies `fn` bottom-up: children first, so a node sees its already-transformed children. */
-function mapTree(nodes: SnapshotNode[], fn: (node: SnapshotNode) => SnapshotNode[]): SnapshotNode[] {
-  return nodes.flatMap((node) => fn({ ...node, children: mapTree(node.children, fn) }));
+function mapTree(
+  nodes: SnapshotNode[],
+  fn: (node: SnapshotNode) => SnapshotNode[],
+): SnapshotNode[] {
+  return nodes.flatMap((node) =>
+    fn({ ...node, children: mapTree(node.children, fn) }),
+  );
 }
 
 /** `button "Login" [disabled]` → "button". */
@@ -195,7 +227,9 @@ function nameOf(head: string): string | undefined {
 
 /** `text: hello` → { key: "text", value: "hello" }; `button "Login"` → undefined. */
 function splitValue(head: string): { key: string; value: string } | undefined {
-  const match = /^([a-z]+(?: "(?:[^"\\]|\\.)*")?(?: \[[^\]]*\])*): (.+)$/.exec(head);
+  const match = /^([a-z]+(?: "(?:[^"\\]|\\.)*")?(?: \[[^\]]*\])*): (.+)$/.exec(
+    head,
+  );
   if (!match?.[1] || match[2] === undefined) return undefined;
   return { key: match[1], value: match[2] };
 }
