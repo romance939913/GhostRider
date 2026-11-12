@@ -1,6 +1,6 @@
 # GhostRider — Architecture
 
-> **Status:** Draft v0.3 · Last updated: 2026-11-10
+> **Status:** Draft v0.4 · Last updated: 2026-11-12
 > Related: [Spec](./v1-product-spec.md) · [Data model](./data-model.md) · [ADRs](./adr/)
 
 ## 1. System overview
@@ -57,8 +57,8 @@ flowchart LR
 | **Recorder worker** (`apps/worker`, role `recorder`) | Playwright, `packages/agent`, `packages/compiler` | Runs the agent loop against the target site, writes the trace, compiles it into a journey version. **The only component with an LLM API key.**                                                                |
 | **Runner worker** (`apps/worker`, role `runner`)     | Playwright                                        | Executes a compiled journey version in a fresh browser context, saves step results and artifacts, retries a failed journey once, enqueues an alert on a confirmed failure. **Has no LLM credentials.**        |
 | **Notifier worker** (`apps/worker`, role `notifier`) | Slack webhooks, email provider                    | Sends failure and recovery alerts and dedupes repeat alerts while a journey stays down.                                                                                                                       |
-| **Postgres**                                         | Postgres 16, Drizzle migrations                   | Source of truth: users, sites, journeys, journey versions, runs, step results, alert channels, encrypted credentials.                                                                                         |
-| **Redis**                                            | Redis 7                                           | BullMQ queues and schedules, recording-progress events, demo rate limiting. Holds no state that can't be rebuilt from Postgres.                                                                               |
+| **Postgres**                                         | Postgres 18, Drizzle migrations                   | Source of truth: users, sites, journeys, journey versions, runs, step results, alert channels, encrypted credentials.                                                                                         |
+| **Redis**                                            | Redis 8                                           | BullMQ queues and schedules, recording-progress events, demo rate limiting. Holds no state that can't be rebuilt from Postgres.                                                                               |
 | **Object storage**                                   | S3 (MinIO locally)                                | Screenshots, Playwright trace files, agent traces. Postgres stores only keys.                                                                                                                                 |
 | **Shared contracts** (`packages/shared`)             | Zod                                               | Trace format, job payloads and API types, shared by web, API and workers. One definition gives both static types and runtime validation.                                                                      |
 
