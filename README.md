@@ -2,7 +2,7 @@
 
 ![Status: in active development](https://img.shields.io/badge/status-in%20active%20development-orange)
 
-**AI-authored synthetic monitoring for small teams.** Describe a critical user journey in plain English, like *"sign up with a new email and confirm the dashboard loads."* An AI browser agent performs it once, and GhostRider compiles what it did into a deterministic Playwright script. That script replays on a schedule **with no AI in the loop**, and you get alerted, with a screenshot, the moment the journey breaks.
+**AI-authored synthetic monitoring for small teams.** Describe a critical user journey in plain English, like _"sign up with a new email and confirm the dashboard loads."_ An AI browser agent performs it once, and GhostRider compiles what it did into a deterministic Playwright script. That script replays on a schedule **with no AI in the loop**, and you get alerted, with a screenshot, the moment the journey breaks.
 
 ## Getting started
 
@@ -39,13 +39,13 @@ If Postgres or Redis is down, `/health` returns `503` and names the dependency t
 
 ### Useful commands
 
-| Command | What it does |
-|---|---|
-| `pnpm build` | Build every package (cached by Turborepo) |
-| `pnpm test` | Run all tests (Vitest) |
-| `pnpm typecheck` | Type-check every package |
-| `pnpm lint` | Lint and check formatting (Biome) |
-| `pnpm format` | Fix formatting automatically |
+| Command               | What it does                                            |
+| --------------------- | ------------------------------------------------------- |
+| `pnpm build`          | Build every package (cached by Turborepo)               |
+| `pnpm test`           | Run all tests (Vitest)                                  |
+| `pnpm typecheck`      | Type-check every package                                |
+| `pnpm lint`           | Lint and check formatting (Biome)                       |
+| `pnpm format`         | Fix formatting automatically                            |
 | `docker compose down` | Stop Postgres and Redis (add `-v` to delete their data) |
 
 ## Repository layout
