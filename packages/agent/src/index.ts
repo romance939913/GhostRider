@@ -1,4 +1,10 @@
 export {
+  DEFAULT_MAX_COST_USD,
+  DEFAULT_MAX_STEPS,
+  type RecordJourneyOptions,
+  recordJourney,
+} from "./agent.js";
+export {
   type BrowserSession,
   type LaunchOptions,
   launchBrowser,
