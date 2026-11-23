@@ -7,3 +7,6 @@ coverage
 .env.*
 !.env.example
 next-env.d.ts
+
+# agent recordings (may contain page content)
+traces/
