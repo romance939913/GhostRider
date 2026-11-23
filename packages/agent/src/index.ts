@@ -10,12 +10,39 @@ export {
   resolveTarget,
 } from "./execute.js";
 export {
+  AnthropicLlm,
+  type AnthropicLlmOptions,
+  type AnthropicMessagesApi,
+  DEFAULT_ANTHROPIC_MODEL,
+} from "./llm/anthropic.js";
+export { estimateCostUsd } from "./llm/pricing.js";
+export {
+  describeAction,
+  renderUserPrompt,
+  SYSTEM_PROMPT,
+} from "./llm/prompt.js";
+export {
+  AGENT_TOOLS,
+  type ParsedToolCall,
+  parseToolCall,
+  type ToolDefinition,
+} from "./llm/tools.js";
+export type {
+  AgentDecision,
+  HistoryEntry,
+  LlmClient,
+  LlmErrorCode,
+  NextActionRequest,
+  NextActionResult,
+} from "./llm/types.js";
+export {
   type ObserveOptions,
   observe,
   type Redaction,
   redactValues,
   waitForSettled,
 } from "./observe.js";
+export { ARIA_ROLE_LIST, ARIA_ROLES, type AriaRole } from "./roles.js";
 export {
   type CompactOptions,
   type CompactResult,

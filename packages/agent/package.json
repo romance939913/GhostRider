@@ -19,6 +19,7 @@
     "dist"
   ],
   "dependencies": {
+    "@anthropic-ai/sdk": "^1.8.0",
     "playwright": "^1.65.0",
     "zod": "^4.6.7"
   },

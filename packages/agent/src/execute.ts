@@ -1,4 +1,5 @@
 import { errors, type Locator, type Page } from "playwright";
+import { ARIA_ROLES, type AriaRole } from "./roles.js";
 import type {
   Action,
   Assertion,
@@ -20,99 +21,6 @@ export interface ExecuteOptions {
   /** Timeout for `navigate`. */
   navigationTimeoutMs?: number;
 }
-
-type AriaRole = Parameters<Page["getByRole"]>[0];
-
-/**
- * Every role Playwright's getByRole accepts. Playwright doesn't reject an
- * unknown role, it just matches nothing, which would send the agent looking
- * for an element that can't exist. `satisfies` keeps this list in sync with
- * Playwright's own type: a typo here is a compile error.
- */
-const ARIA_ROLES: ReadonlySet<string> = new Set([
-  "alert",
-  "alertdialog",
-  "application",
-  "article",
-  "banner",
-  "blockquote",
-  "button",
-  "caption",
-  "cell",
-  "checkbox",
-  "code",
-  "columnheader",
-  "combobox",
-  "complementary",
-  "contentinfo",
-  "definition",
-  "deletion",
-  "dialog",
-  "directory",
-  "document",
-  "emphasis",
-  "feed",
-  "figure",
-  "form",
-  "generic",
-  "grid",
-  "gridcell",
-  "group",
-  "heading",
-  "img",
-  "insertion",
-  "link",
-  "list",
-  "listbox",
-  "listitem",
-  "log",
-  "main",
-  "marquee",
-  "math",
-  "meter",
-  "menu",
-  "menubar",
-  "menuitem",
-  "menuitemcheckbox",
-  "menuitemradio",
-  "navigation",
-  "none",
-  "note",
-  "option",
-  "paragraph",
-  "presentation",
-  "progressbar",
-  "radio",
-  "radiogroup",
-  "region",
-  "row",
-  "rowgroup",
-  "rowheader",
-  "scrollbar",
-  "search",
-  "searchbox",
-  "separator",
-  "slider",
-  "spinbutton",
-  "status",
-  "strong",
-  "subscript",
-  "superscript",
-  "switch",
-  "tab",
-  "table",
-  "tablist",
-  "tabpanel",
-  "term",
-  "textbox",
-  "time",
-  "timer",
-  "toolbar",
-  "tooltip",
-  "tree",
-  "treegrid",
-  "treeitem",
-] as const satisfies readonly AriaRole[]);
 
 function toAriaRole(role: string): AriaRole {
   if (!ARIA_ROLES.has(role)) {
