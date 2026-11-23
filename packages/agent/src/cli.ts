@@ -85,7 +85,9 @@ function parseCliArgs(argv: string[]): CliArgs | { error: string } | "help" {
   for (const pair of values.secret ?? []) {
     const match = /^([A-Za-z0-9_]+)=(.*)$/s.exec(pair);
     if (!match?.[1] || match[2] === undefined) {
-      return { error: "--secret must look like name=value (name: A-Z, 0-9, _)" };
+      return {
+        error: "--secret must look like name=value (name: A-Z, 0-9, _)",
+      };
     }
     secrets[match[1]] = match[2];
   }

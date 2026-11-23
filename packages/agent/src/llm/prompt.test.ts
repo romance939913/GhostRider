@@ -16,7 +16,9 @@ const observation: TraceObservation = {
   truncated: false,
 };
 
-function request(overrides: Partial<NextActionRequest> = {}): NextActionRequest {
+function request(
+  overrides: Partial<NextActionRequest> = {},
+): NextActionRequest {
   return {
     goal: "Log in as standard_user",
     startUrl: "https://www.saucedemo.com/",
@@ -57,7 +59,9 @@ describe("renderUserPrompt", () => {
     expect(prompt).toContain("Goal: Log in as standard_user");
     expect(prompt).toContain("Start URL: https://www.saucedemo.com/");
     expect(prompt).toContain("Title: Swag Labs");
-    expect(prompt).toContain(`<snapshot>\n${observation.snapshot}\n</snapshot>`);
+    expect(prompt).toContain(
+      `<snapshot>\n${observation.snapshot}\n</snapshot>`,
+    );
     expect(prompt).toContain("Steps so far:\nNone yet.");
     expect(prompt).toContain("Available secrets: none");
   });
@@ -104,7 +108,9 @@ describe("renderUserPrompt", () => {
         observation: { ...observation, truncated: true, snapshotChars: 36703 },
       }),
     );
-    expect(prompt).toContain("(Snapshot shortened from 36703 characters to fit.)");
+    expect(prompt).toContain(
+      "(Snapshot shortened from 36703 characters to fit.)",
+    );
   });
 
   it("adds feedback about a previous bad response", () => {

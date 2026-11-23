@@ -80,8 +80,10 @@ export function describeAction(action: Action): string {
       return `type ${JSON.stringify(action.text)} into ${describeTarget(action.target)}${action.submit ? " + Enter" : ""}`;
     case "assert": {
       const a = action.assertion;
-      if (a.kind === "textVisible") return `assert text ${JSON.stringify(a.text)} visible`;
-      if (a.kind === "elementVisible") return `assert ${describeTarget(a.target)} visible`;
+      if (a.kind === "textVisible")
+        return `assert text ${JSON.stringify(a.text)} visible`;
+      if (a.kind === "elementVisible")
+        return `assert ${describeTarget(a.target)} visible`;
       return `assert URL matches /${a.pattern}/`;
     }
     case "done":
@@ -89,7 +91,11 @@ export function describeAction(action: Action): string {
   }
 }
 
-function describeTarget(target: { role: string; name: string; nth?: number }): string {
+function describeTarget(target: {
+  role: string;
+  name: string;
+  nth?: number;
+}): string {
   const nth = target.nth === undefined ? "" : ` nth=${target.nth}`;
   return `${target.role} ${JSON.stringify(target.name)}${nth}`;
 }

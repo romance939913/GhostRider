@@ -10,23 +10,9 @@ export {
   resolveTarget,
 } from "./execute.js";
 export {
-  type ObserveOptions,
-  observe,
-  type Redaction,
-  redactValues,
-  waitForSettled,
-} from "./observe.js";
-export {
-  type CompactOptions,
-  type CompactResult,
-  compactSnapshot,
-  DEFAULT_SNAPSHOT_BUDGET_CHARS,
-  INTERACTIVE_ROLES,
-} from "./snapshot.js";
-export {
+  AnthropicLlm,
   type AnthropicLlmOptions,
   type AnthropicMessagesApi,
-  AnthropicLlm,
   DEFAULT_ANTHROPIC_MODEL,
 } from "./llm/anthropic.js";
 export { estimateCostUsd } from "./llm/pricing.js";
@@ -49,5 +35,19 @@ export type {
   NextActionRequest,
   NextActionResult,
 } from "./llm/types.js";
+export {
+  type ObserveOptions,
+  observe,
+  type Redaction,
+  redactValues,
+  waitForSettled,
+} from "./observe.js";
 export { ARIA_ROLE_LIST, ARIA_ROLES, type AriaRole } from "./roles.js";
+export {
+  type CompactOptions,
+  type CompactResult,
+  compactSnapshot,
+  DEFAULT_SNAPSHOT_BUDGET_CHARS,
+  INTERACTIVE_ROLES,
+} from "./snapshot.js";
 export * from "./trace.js";

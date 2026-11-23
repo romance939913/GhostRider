@@ -22,8 +22,6 @@ export interface ExecuteOptions {
   navigationTimeoutMs?: number;
 }
 
-
-
 function toAriaRole(role: string): AriaRole {
   if (!ARIA_ROLES.has(role)) {
     throw new StepError(
