@@ -136,6 +136,13 @@ describe("describeAction", () => {
     ).toBe('click button "Add to cart" nth=1');
     expect(
       describeAction({
+        type: "select",
+        target: { role: "combobox", name: "" },
+        option: "Option 2",
+      }),
+    ).toBe('select "Option 2" in combobox ""');
+    expect(
+      describeAction({
         type: "type",
         target: { role: "searchbox", name: "Search" },
         text: "shoes",

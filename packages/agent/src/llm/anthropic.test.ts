@@ -21,6 +21,7 @@ const request: NextActionRequest = {
 function fakeMessages(
   content: unknown[],
   stopReason = "tool_use",
+  usage: Record<string, number> = { input_tokens: 1_000, output_tokens: 200 },
 ): AnthropicMessagesApi & {
   calls: Anthropic.MessageCreateParamsNonStreaming[];
 } {
@@ -37,7 +38,7 @@ function fakeMessages(
         content,
         stop_reason: stopReason,
         stop_sequence: null,
-        usage: { input_tokens: 1_000, output_tokens: 200 },
+        usage,
       } as unknown as Anthropic.Message;
     },
   };
@@ -69,6 +70,7 @@ describe("AnthropicLlm", () => {
     expect(params?.tools?.map((t) => (t as Anthropic.Tool).name)).toEqual([
       "navigate",
       "click",
+      "select",
       "type",
       "assert",
       "done",
@@ -89,7 +91,12 @@ describe("AnthropicLlm", () => {
 
     expect(await llm.nextAction(request)).toEqual({
       ok: true,
-      usage: { inputTokens: 1_000, outputTokens: 200 },
+      usage: {
+        inputTokens: 1_000,
+        outputTokens: 200,
+        cacheReadTokens: 0,
+        cacheWriteTokens: 0,
+      },
       // 1,000 × $2/M + 200 × $10/M
       costUsd: 0.004,
       decision: {
@@ -158,5 +165,41 @@ describe("AnthropicLlm", () => {
       messages: fakeMessages([clickLogin]),
     });
     expect((await llm.nextAction(request)).costUsd).toBeUndefined();
+  });
+
+  it("caches the tools and system prompt with a breakpoint on the system block", async () => {
+    const messages = fakeMessages([clickLogin]);
+    await new AnthropicLlm({ messages }).nextAction(request);
+
+    const params = messages.calls[0];
+    expect(params).not.toHaveProperty("cache_control");
+    expect(params?.system).toEqual([
+      expect.objectContaining({
+        type: "text",
+        cache_control: { type: "ephemeral" },
+      }),
+    ]);
+  });
+
+  it("counts cached tokens in usage and prices them as cache reads", async () => {
+    const llm = new AnthropicLlm({
+      messages: fakeMessages([clickLogin], "tool_use", {
+        input_tokens: 1_000,
+        cache_read_input_tokens: 4_000,
+        cache_creation_input_tokens: 0,
+        output_tokens: 100,
+      }),
+    });
+
+    const result = await llm.nextAction(request);
+
+    expect(result.usage).toEqual({
+      inputTokens: 5_000,
+      outputTokens: 100,
+      cacheReadTokens: 4_000,
+      cacheWriteTokens: 0,
+    });
+    // 1,000 × $2/M + 4,000 × $0.10/M + 100 × $10/M
+    expect(result.costUsd).toBeCloseTo(0.0034, 10);
   });
 });

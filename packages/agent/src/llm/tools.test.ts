@@ -39,6 +39,7 @@ describe("AGENT_TOOLS", () => {
     const expected: Record<ActionType, true> = {
       navigate: true,
       click: true,
+      select: true,
       type: true,
       assert: true,
       done: true,
