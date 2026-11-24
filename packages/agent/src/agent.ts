@@ -194,10 +194,20 @@ function rejectEarlySuccess(
 }
 
 function addUsage(a: TokenUsage, b: TokenUsage): TokenUsage {
-  return {
+  const sum: TokenUsage = {
     inputTokens: a.inputTokens + b.inputTokens,
     outputTokens: a.outputTokens + b.outputTokens,
   };
+  // Only include the cache fields once a provider has reported them.
+  const cacheRead = (a.cacheReadTokens ?? 0) + (b.cacheReadTokens ?? 0);
+  const cacheWrite = (a.cacheWriteTokens ?? 0) + (b.cacheWriteTokens ?? 0);
+  if (a.cacheReadTokens !== undefined || b.cacheReadTokens !== undefined) {
+    sum.cacheReadTokens = cacheRead;
+  }
+  if (a.cacheWriteTokens !== undefined || b.cacheWriteTokens !== undefined) {
+    sum.cacheWriteTokens = cacheWrite;
+  }
+  return sum;
 }
 
 /** Running totals across every model call, including rejected ones. */

@@ -53,6 +53,13 @@ export const Action = z.discriminatedUnion("type", [
   z.object({ type: z.literal("navigate"), url: z.url() }),
   z.object({ type: z.literal("click"), target: ElementTarget }),
   z.object({
+    type: z.literal("select"),
+    /** A native <select> (role "combobox" or "listbox"). */
+    target: ElementTarget,
+    /** The option's visible label, e.g. "Option 2". */
+    option: z.string().min(1),
+  }),
+  z.object({
     type: z.literal("type"),
     target: ElementTarget,
     /** May contain placeholders like {{secrets.password}}; never the secret itself. */
@@ -114,8 +121,13 @@ export const StepResult = z.discriminatedUnion("ok", [
 export type StepResult = z.infer<typeof StepResult>;
 
 export const TokenUsage = z.object({
+  /** All input tokens, including any read from or written to the cache. */
   inputTokens: NonNegativeInt,
   outputTokens: NonNegativeInt,
+  /** Part of inputTokens served from the prompt cache (billed much lower). */
+  cacheReadTokens: NonNegativeInt.optional(),
+  /** Part of inputTokens written to the prompt cache (billed a bit higher). */
+  cacheWriteTokens: NonNegativeInt.optional(),
 });
 export type TokenUsage = z.infer<typeof TokenUsage>;
 

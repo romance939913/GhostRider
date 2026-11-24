@@ -102,6 +102,29 @@ describe("observe", () => {
     expect(observation.truncated).toBe(true);
     expect(observation.snapshot).toContain('- button "Buy now"');
   });
+  it("cleans icon-font glyphs out of element names", async () => {
+    const observation = await observeHtml(
+      "<button><i>&#xf090;</i> Login</button>",
+    );
+
+    expect(observation.snapshot).toContain('- button "Login"');
+  });
+
+  it("waits for a single-page app to finish re-rendering", async () => {
+    // Like a React route change: no page load, and the new view renders a
+    // moment after the click. (No pushState: about:blank can't push URLs.)
+    await session.page.setContent(`
+      <button onclick="
+        setTimeout(() => { document.body.innerHTML = '<h1>Products</h1>'; }, 300);
+      ">Log in</button>
+    `);
+    await session.page.getByRole("button", { name: "Log in" }).click();
+
+    const observation = await observe(session.page);
+
+    expect(observation.snapshot).toContain('- heading "Products" [level=1]');
+    expect(observation.snapshot).not.toContain("Log in");
+  });
 });
 
 describe("redactValues", () => {

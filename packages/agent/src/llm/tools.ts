@@ -99,6 +99,18 @@ export const AGENT_TOOLS: readonly ToolDefinition[] = [
     ["target"],
   ),
   tool(
+    "select",
+    "Choose an option in a native dropdown: a combobox or listbox whose options are listed under it in the snapshot. Clicking those options doesn't work; use this instead.",
+    {
+      target,
+      option: {
+        type: "string",
+        description: 'The option\'s label exactly as shown, e.g. "Option 2".',
+      },
+    },
+    ["target", "option"],
+  ),
+  tool(
     "type",
     "Replace the contents of a text field. For secrets, type the placeholder, e.g. {{secrets.password}}.",
     {
@@ -113,7 +125,7 @@ export const AGENT_TOOLS: readonly ToolDefinition[] = [
   ),
   tool(
     "assert",
-    "Check that the page is in an expected state. Use stable facts (headings, confirmation messages, URLs), never timestamps, counters or personalized content. Assertions become the checks GhostRider runs on a schedule.",
+    'Check that the page is in an expected state. Assertions become the checks GhostRider runs on a schedule, so each one must be meaningful and stable: assert the specific outcome the goal names ("1 item left", not "item left"), using headings, confirmation messages or URLs, never timestamps or personalized content. One assert that proves the goal is usually enough.',
     {
       assertion: {
         anyOf: [

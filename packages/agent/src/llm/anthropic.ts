@@ -65,15 +65,30 @@ export class AnthropicLlm implements LlmClient {
     const response = await this.messages.create({
       model: this.model,
       max_tokens: this.maxTokens,
-      system: SYSTEM_PROMPT,
+      // Cache breakpoint on the system prompt: caches tools + system, which
+      // are identical on every step. Not top-level automatic caching, which
+      // would also cache the per-step page snapshot and never reuse it.
+      system: [
+        {
+          type: "text",
+          text: SYSTEM_PROMPT,
+          cache_control: { type: "ephemeral" },
+        },
+      ],
       tools: ANTHROPIC_TOOLS,
       tool_choice: { type: "auto", disable_parallel_tool_use: true },
       messages: [{ role: "user", content: renderUserPrompt(request) }],
     });
 
+    // The API's input_tokens excludes cached tokens; ours is the total.
+    const cacheReadTokens = response.usage.cache_read_input_tokens ?? 0;
+    const cacheWriteTokens = response.usage.cache_creation_input_tokens ?? 0;
     const usage = {
-      inputTokens: response.usage.input_tokens,
+      inputTokens:
+        response.usage.input_tokens + cacheReadTokens + cacheWriteTokens,
       outputTokens: response.usage.output_tokens,
+      cacheReadTokens,
+      cacheWriteTokens,
     };
     const costUsd = estimateCostUsd(this.model, usage);
 

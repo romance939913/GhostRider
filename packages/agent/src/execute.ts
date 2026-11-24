@@ -1,4 +1,5 @@
 import { errors, type Locator, type Page } from "playwright";
+import { accessibleNameMatcher } from "./names.js";
 import { ARIA_ROLES, type AriaRole } from "./roles.js";
 import type {
   Action,
@@ -94,6 +95,17 @@ async function perform(
       return;
     }
 
+    case "select": {
+      const element = await resolveTarget(page, action.target, timeout);
+      await selectOption(
+        element,
+        action.option,
+        describeTarget(action.target),
+        timeout,
+      );
+      return;
+    }
+
     case "type": {
       // Resolve before touching the page so an unknown secret types nothing.
       const text = resolveSecrets(action.text, options.secrets ?? {});
@@ -134,9 +146,9 @@ export async function resolveTarget(
   target: ElementTarget,
   timeoutMs: number,
 ): Promise<Locator> {
+  // Exact name, ignoring icon-font glyphs (see names.ts).
   const matches = page.getByRole(toAriaRole(target.role), {
-    name: target.name,
-    exact: true,
+    name: accessibleNameMatcher(target.name),
   });
   const label = describeTarget(target);
 
@@ -187,8 +199,7 @@ async function checkAssertion(
       case "elementVisible": {
         // For assertions, any visible match is fine: duplicates aren't ambiguous here.
         const matches = page.getByRole(toAriaRole(assertion.target.role), {
-          name: assertion.target.name,
-          exact: true,
+          name: accessibleNameMatcher(assertion.target.name),
         });
         const element =
           assertion.target.nth === undefined
@@ -215,6 +226,45 @@ async function checkAssertion(
     }
     throw error;
   }
+}
+
+/**
+ * Picks an option of a native <select> by its visible label. Clicking an
+ * <option> doesn't work in a real browser, which is why this is its own
+ * action. A missing label fails fast and lists the labels that do exist,
+ * so the model can correct itself.
+ */
+async function selectOption(
+  element: Locator,
+  option: string,
+  label: string,
+  timeout: number,
+): Promise<void> {
+  const isSelect = await element.evaluate(
+    (el) => el.tagName.toLowerCase() === "select",
+  );
+  if (!isSelect) {
+    throw new StepError(
+      "invalid_action",
+      `${label} is not a native <select>. For a custom dropdown, click it open and then click the option.`,
+    );
+  }
+
+  const labels = (await element.locator("option").allTextContents()).map(
+    (text) => text.trim(),
+  );
+  if (!labels.includes(option)) {
+    const shown = labels
+      .slice(0, 20)
+      .map((text) => JSON.stringify(text))
+      .join(", ");
+    throw new StepError(
+      "element_not_found",
+      `${label} has no option "${option}". Options: ${shown}`,
+    );
+  }
+
+  await element.selectOption({ label: option }, { timeout });
 }
 
 const SECRET_PLACEHOLDER = /\{\{secrets\.([A-Za-z0-9_]+)\}\}/g;

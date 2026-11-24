@@ -37,6 +37,8 @@ const PAGE = `
     <label>Search <input id="q"></label>
   </form>
   <label>Password <input id="pw" type="password"></label>
+  <label>Size <select id="size"><option>Small</option><option>Large</option></select></label>
+  <button onclick="window.clicked.push('sign-in')"><i class="icon">&#xf090;</i> Sign in</button>
   <p id="late"></p>
   <script>
     window.clicked = [];
@@ -166,6 +168,61 @@ describe("click", () => {
       ok: false,
       error: { code: "invalid_action" },
     });
+  });
+});
+
+describe("select", () => {
+  it("picks an option of a native select by its label", async () => {
+    const result = await run({
+      type: "select",
+      target: { role: "combobox", name: "Size" },
+      option: "Large",
+    });
+
+    expect(result.ok).toBe(true);
+    expect(await evaluate("document.querySelector('#size').value")).toBe(
+      "Large",
+    );
+  });
+
+  it("lists the real options when the label doesn't exist", async () => {
+    const result = await run({
+      type: "select",
+      target: { role: "combobox", name: "Size" },
+      option: "Medium",
+    });
+
+    expect(result).toMatchObject({
+      ok: false,
+      error: { code: "element_not_found" },
+    });
+    if (!result.ok)
+      expect(result.error.message).toContain('Options: "Small", "Large"');
+  });
+
+  it("refuses a target that isn't a native select", async () => {
+    const result = await run({
+      type: "select",
+      target: { role: "textbox", name: "Search" },
+      option: "Large",
+    });
+
+    expect(result).toMatchObject({
+      ok: false,
+      error: { code: "invalid_action" },
+    });
+  });
+});
+
+describe("icon fonts", () => {
+  it("finds a button whose name starts with an icon glyph", async () => {
+    const result = await run({
+      type: "click",
+      target: { role: "button", name: "Sign in" },
+    });
+
+    expect(result.ok).toBe(true);
+    expect(await evaluate("window.clicked")).toEqual(["sign-in"]);
   });
 });
 
