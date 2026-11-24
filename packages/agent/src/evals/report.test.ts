@@ -82,6 +82,70 @@ describe("grade", () => {
   });
 });
 
+describe("grade: provenBy", () => {
+  const dropdown: EvalJourney = {
+    id: "dropdown",
+    startUrl: "https://shop.test/",
+    goal: "Select Option 2",
+    expect: { status: "succeeded", provenBy: "Option 2" },
+    covers: "test",
+  };
+
+  function assertStep(
+    index: number,
+    assertion: Extract<TraceStep["action"], { type: "assert" }>["assertion"],
+    ok: boolean,
+  ): TraceStep {
+    return {
+      ...step("https://shop.test/"),
+      index,
+      action: { type: "assert", assertion },
+      result: ok
+        ? { ok: true, durationMs: 1, urlAfter: "https://shop.test/" }
+        : {
+            ok: false,
+            durationMs: 1,
+            error: { code: "assertion_failed", message: "not visible" },
+          },
+    };
+  }
+
+  it("fails a success proven only by an unrelated assert", () => {
+    // What actually happened in the first Step 8 eval run.
+    const trace_ = trace("succeeded", [
+      assertStep(0, { kind: "textVisible", text: "Option 2" }, false),
+      assertStep(
+        1,
+        {
+          kind: "elementVisible",
+          target: { role: "heading", name: "Dropdown List" },
+        },
+        true,
+      ),
+    ]);
+
+    const result = grade(dropdown, trace_);
+
+    expect(result.passed).toBe(false);
+    expect(result.reason).toContain('no passing assert mentions "Option 2"');
+  });
+
+  it("passes when a passing assert proves the goal", () => {
+    const trace_ = trace("succeeded", [
+      assertStep(
+        0,
+        {
+          kind: "fieldValue",
+          target: { role: "combobox", name: "" },
+          value: "Option 2",
+        },
+        true,
+      ),
+    ]);
+    expect(grade(dropdown, trace_).passed).toBe(true);
+  });
+});
+
 describe("finalUrl", () => {
   it("uses the last step's URL, or its observation if the step failed", () => {
     expect(finalUrl(trace("succeeded", [step("https://shop.test/a")]))).toBe(

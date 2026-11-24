@@ -39,6 +39,12 @@ export const Assertion = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("textVisible"), text: z.string().min(1) }),
   z.object({ kind: z.literal("elementVisible"), target: ElementTarget }),
   z.object({
+    kind: z.literal("fieldValue"),
+    /** A text field, or a native <select> (compared by selected option label). */
+    target: ElementTarget,
+    value: z.string(),
+  }),
+  z.object({
     kind: z.literal("urlMatches"),
     /** Regular expression source, tested against the full URL. */
     pattern: z

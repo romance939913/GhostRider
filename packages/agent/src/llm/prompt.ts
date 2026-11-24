@@ -21,7 +21,8 @@ Rules:
 - Close cookie banners, popups or modals only when they block what you need.
 - Before calling done with success true, confirm the goal with an assert on something stable: a heading, a confirmation message or the URL. Assert the specific outcome the goal asks for. Never assert on timestamps, prices that change, or personalized content.
 - One assert that proves the goal is usually enough; add more only for separate outcomes the goal names. Every extra assert is another way for the scheduled check to break.
-- For a native dropdown (a combobox with options listed under it), use select. Clicking an option does not work.
+- For a native dropdown (a combobox with options listed under it), use select. Clicking an option does not work. To verify a dropdown or form field, use a fieldValue assert.
+- If an assert that checks the goal fails, never replace it with an assert on something unrelated. Fix the page and check again, or call done with success false.
 - If the goal can't be achieved, call done with success false and say why. A clear failure is far better than a false success.
 - Keep thought to one or two sentences. Write intent as a short imperative a non-technical person would understand, and make it describe exactly what the action does: for an assert, what it checks ("Check that the Products heading is shown").`;
 
@@ -88,6 +89,8 @@ export function describeAction(action: Action): string {
         return `assert text ${JSON.stringify(a.text)} visible`;
       if (a.kind === "elementVisible")
         return `assert ${describeTarget(a.target)} visible`;
+      if (a.kind === "fieldValue")
+        return `assert ${describeTarget(a.target)} value ${JSON.stringify(a.value)}`;
       return `assert URL matches /${a.pattern}/`;
     }
     case "done":

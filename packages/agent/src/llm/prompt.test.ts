@@ -156,6 +156,16 @@ describe("describeAction", () => {
       }),
     ).toBe("assert URL matches //inventory/");
     expect(
+      describeAction({
+        type: "assert",
+        assertion: {
+          kind: "fieldValue",
+          target: { role: "combobox", name: "Size" },
+          value: "Large",
+        },
+      }),
+    ).toBe('assert combobox "Size" value "Large"');
+    expect(
       describeAction({ type: "done", success: false, summary: "Blocked" }),
     ).toBe("done (success: false)");
   });

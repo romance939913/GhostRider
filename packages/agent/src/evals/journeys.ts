@@ -19,6 +19,11 @@ export interface EvalJourney {
     status: TraceOutcomeStatus;
     /** For successful journeys: regex the final URL must match. */
     finalUrl?: string;
+    /**
+     * For successful journeys: text that at least one passing assert must
+     * contain. Catches a "success" proven by an unrelated assert.
+     */
+    provenBy?: string;
   };
   /** What this journey exercises, for reading the results. */
   covers: string;
@@ -50,7 +55,11 @@ export const EVAL_JOURNEYS: readonly EvalJourney[] = [
     startUrl: SAUCEDEMO,
     goal: "Log in as standard_user, add the Sauce Labs Backpack to the cart, check out as Test User with postal code 10001, finish the order and confirm it was placed.",
     secrets: { password: "secret_sauce" },
-    expect: { status: "succeeded", finalUrl: "/checkout-complete\\.html$" },
+    expect: {
+      status: "succeeded",
+      finalUrl: "/checkout-complete\\.html$",
+      provenBy: "Thank you for your order",
+    },
     covers: "Long multi-page flow (about 12 steps)",
   },
   {
@@ -65,28 +74,32 @@ export const EVAL_JOURNEYS: readonly EvalJourney[] = [
     id: "the-internet-dynamic-loading",
     startUrl: `${THE_INTERNET}/dynamic_loading/2`,
     goal: "Start the loading and confirm the text that appears when it finishes.",
-    expect: { status: "succeeded" },
+    expect: { status: "succeeded", provenBy: "Hello World!" },
     covers: "Content that appears seconds after an action",
   },
   {
     id: "the-internet-dropdown",
     startUrl: `${THE_INTERNET}/dropdown`,
     goal: 'Select "Option 2" in the dropdown and confirm it is selected.',
-    expect: { status: "succeeded" },
-    covers: "Native <select>: needs a select action (spec 5.1), not built yet",
+    expect: { status: "succeeded", provenBy: "Option 2" },
+    covers: "Native <select>: select action + fieldValue assert",
   },
   {
     id: "todomvc",
     startUrl: "https://demo.playwright.dev/todomvc/",
     goal: 'Add the todos "Buy milk" and "Walk the dog", mark "Buy milk" as completed, and confirm that 1 item is left.',
-    expect: { status: "succeeded" },
+    expect: { status: "succeeded", provenBy: "1 item left" },
     covers: "Single-page app: typing with Enter, checkboxes, live counters",
   },
   {
     id: "wikipedia-search",
     startUrl: "https://en.wikipedia.org/wiki/Main_Page",
     goal: "Search Wikipedia for Ada Lovelace and confirm her article opens.",
-    expect: { status: "succeeded", finalUrl: "/wiki/Ada_Lovelace" },
+    expect: {
+      status: "succeeded",
+      finalUrl: "/wiki/Ada_Lovelace",
+      provenBy: "Ada Lovelace",
+    },
     covers: "Large page (snapshot compaction), search box with autocomplete",
   },
 ];

@@ -214,6 +214,65 @@ describe("select", () => {
   });
 });
 
+describe("assert fieldValue", () => {
+  it("checks the selected option of a native select", async () => {
+    await run({
+      type: "select",
+      target: { role: "combobox", name: "Size" },
+      option: "Large",
+    });
+
+    const result = await run({
+      type: "assert",
+      assertion: {
+        kind: "fieldValue",
+        target: { role: "combobox", name: "Size" },
+        value: "Large",
+      },
+    });
+
+    expect(result.ok).toBe(true);
+  });
+
+  it("checks the value of a text field", async () => {
+    await run({
+      type: "type",
+      target: { role: "textbox", name: "Search" },
+      text: "shoes",
+    });
+
+    const result = await run({
+      type: "assert",
+      assertion: {
+        kind: "fieldValue",
+        target: { role: "textbox", name: "Search" },
+        value: "shoes",
+      },
+    });
+
+    expect(result.ok).toBe(true);
+  });
+
+  it("fails with the actual value when it doesn't match", async () => {
+    const result = await run({
+      type: "assert",
+      assertion: {
+        kind: "fieldValue",
+        target: { role: "combobox", name: "Size" },
+        value: "Large",
+      },
+    });
+
+    expect(result).toMatchObject({
+      ok: false,
+      error: {
+        code: "assertion_failed",
+        message: 'combobox "Size" has value "Small", expected "Large"',
+      },
+    });
+  });
+});
+
 describe("icon fonts", () => {
   it("finds a button whose name starts with an icon glyph", async () => {
     const result = await run({

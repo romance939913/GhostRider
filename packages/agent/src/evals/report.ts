@@ -45,7 +45,23 @@ export function grade(
       };
     }
   }
+  const { provenBy } = journey.expect;
+  if (provenBy !== undefined && !passingAssertMentions(trace, provenBy)) {
+    return {
+      passed: false,
+      reason: `no passing assert mentions ${JSON.stringify(provenBy)}, so the success isn't proven`,
+    };
+  }
   return { passed: true, reason: trace.outcome.summary };
+}
+
+function passingAssertMentions(trace: Trace, text: string): boolean {
+  return trace.steps.some(
+    (step) =>
+      step.action.type === "assert" &&
+      step.result.ok &&
+      JSON.stringify(step.action.assertion).includes(text),
+  );
 }
 
 export interface ReportMeta {
