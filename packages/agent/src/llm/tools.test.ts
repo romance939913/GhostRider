@@ -120,6 +120,11 @@ describe("parseToolCall", () => {
     for (const assertion of [
       { kind: "textVisible", text: "Products" },
       { kind: "elementVisible", target: { role: "heading", name: "Products" } },
+      {
+        kind: "fieldValue",
+        target: { role: "combobox", name: "Size" },
+        value: "Large",
+      },
       { kind: "urlMatches", pattern: "/inventory\\.html$" },
     ]) {
       expect(parseToolCall("assert", { ...base, assertion }).ok).toBe(true);

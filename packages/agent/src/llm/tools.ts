@@ -152,6 +152,18 @@ export const AGENT_TOOLS: readonly ToolDefinition[] = [
           {
             type: "object",
             description:
+              "A text field contains exactly this value, or a native dropdown has this option selected (by label). Use this to verify form fields and dropdowns: options inside a closed dropdown are not visible.",
+            properties: {
+              kind: { type: "string", const: "fieldValue" },
+              target,
+              value: { type: "string" },
+            },
+            required: ["kind", "target", "value"],
+            additionalProperties: false,
+          },
+          {
+            type: "object",
+            description:
               "The current URL matches this regular expression (JavaScript syntax).",
             properties: {
               kind: { type: "string", const: "urlMatches" },

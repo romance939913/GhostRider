@@ -209,6 +209,14 @@ async function checkAssertion(
         return;
       }
 
+      case "fieldValue": {
+        const element = await resolveTarget(page, assertion.target, timeout);
+        await waitForFieldValue(element, assertion.value, timeout, () =>
+          describeTarget(assertion.target),
+        );
+        return;
+      }
+
       case "urlMatches":
         // Polls, so client-side (pushState) navigations are caught too.
         await page.waitForURL(new RegExp(assertion.pattern), {
@@ -267,6 +275,45 @@ async function selectOption(
   await element.selectOption({ label: option }, { timeout });
 }
 
+const FIELD_VALUE_POLL_MS = 100;
+
+/**
+ * Waits until a field's value equals `expected`: an input's or textarea's
+ * value, or the label of a native <select>'s selected option. Polls, like
+ * the other assertions, so values set by scripts a moment later still pass.
+ */
+async function waitForFieldValue(
+  element: Locator,
+  expected: string,
+  timeout: number,
+  label: () => string,
+): Promise<void> {
+  const deadline = Date.now() + timeout;
+  let actual = await readFieldValue(element);
+  while (actual !== expected && Date.now() < deadline) {
+    await element.page().waitForTimeout(FIELD_VALUE_POLL_MS);
+    actual = await readFieldValue(element);
+  }
+  if (actual !== expected) {
+    throw new StepError(
+      "assertion_failed",
+      `${label()} has value ${JSON.stringify(actual)}, expected ${JSON.stringify(expected)}`,
+    );
+  }
+}
+
+function readFieldValue(element: Locator): Promise<string> {
+  return element.evaluate((el) => {
+    if (el instanceof HTMLSelectElement) {
+      return el.selectedOptions[0]?.label.trim() ?? "";
+    }
+    if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) {
+      return el.value;
+    }
+    return el.textContent?.trim() ?? "";
+  });
+}
+
 const SECRET_PLACEHOLDER = /\{\{secrets\.([A-Za-z0-9_]+)\}\}/g;
 
 /** Replaces `{{secrets.<name>}}` placeholders. Unknown names are an error, never typed literally. */
@@ -313,6 +360,8 @@ function describeFailedAssertion(page: Page, assertion: Assertion): string {
       return `Text "${assertion.text}" is not visible`;
     case "elementVisible":
       return `${describeTarget(assertion.target)} is not visible`;
+    case "fieldValue":
+      return `${describeTarget(assertion.target)} does not have value ${JSON.stringify(assertion.value)}`;
     case "urlMatches":
       return `URL ${page.url()} does not match /${assertion.pattern}/`;
   }
