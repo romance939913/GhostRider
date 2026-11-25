@@ -62,7 +62,7 @@ The agent ([`packages/agent`](packages/agent/src)) records a journey one step at
 
 Two rules keep recordings honest: the model never sees a secret (only `{{secrets.name}}` placeholders), and a recording can only succeed after an assert has passed. The trace format is locked in [ADR-006](docs/adr/0006-trace-format-v1.md).
 
-**Measured on an [eval set](packages/agent/src/evals/journeys.ts)** of 8 journeys on public test sites, including one that must fail: **8/8 passing at $0.22 for the full set**, down from 7/8 at $0.64 before the M1 fixes (reports in [`packages/agent/eval-results`](packages/agent/eval-results)).
+**Measured on an [eval set](packages/agent/src/evals/journeys.ts)** of 8 journeys on public test sites, including one that must fail: **8/8 passing at $0.20 for the full set**, every success proven by an assert that matches the goal, up from 7/8 at $0.64 before the M1 fixes (reports in [`packages/agent/eval-results`](packages/agent/eval-results)).
 
 ```bash
 # record a journey (needs ANTHROPIC_API_KEY in .env); the trace is saved to traces/

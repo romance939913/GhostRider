@@ -40,7 +40,7 @@ A trace is a header (goal, start URL, model, timestamps), an outcome, a list of 
 
 - One definition shared by every package that touches traces, so M2 can be built against a stable contract.
 - Storage stays simple, as planned in the data model: a recording's full trace is JSON in S3 (`recordings.trace_key`), and Postgres keeps only summary columns.
-- Recordings are measured, not anecdotal: on the eval set, 7/8 at $0.64 per full run before the M1 fixes, and 8/8 at $0.22 after them (prompt caching on tools and system prompt).
+- Recordings are measured, not anecdotal: on the eval set, 7/8 at $0.64 per full run before the M1 fixes, and 8/8 at $0.20 after them, with every success proven by an assert that matches the goal. Most of the saving comes from prompt caching on the tools and system prompt.
 
 **Negative**
 
