@@ -1,5 +1,6 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { parseArgs } from "node:util";
+import type { Trace, TraceStep } from "@ghostrider/shared";
 import {
   DEFAULT_MAX_COST_USD,
   DEFAULT_MAX_STEPS,
@@ -10,7 +11,6 @@ import { AnthropicLlm, DEFAULT_ANTHROPIC_MODEL } from "./llm/anthropic.js";
 import { describeAction } from "./llm/prompt.js";
 import { observe } from "./observe.js";
 import { DEFAULT_SNAPSHOT_BUDGET_CHARS } from "./snapshot.js";
-import type { Trace, TraceStep } from "@ghostrider/shared";
 
 /** Repo-root traces/ (git-ignored). */
 const TRACES_DIR = new URL("../../../traces/", import.meta.url);

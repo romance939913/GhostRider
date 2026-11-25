@@ -1,7 +1,7 @@
+import type { TraceObservation } from "@ghostrider/shared";
 import type { Page } from "playwright";
 import { cleanSnapshotNames } from "./names.js";
 import { compactSnapshot, DEFAULT_SNAPSHOT_BUDGET_CHARS } from "./snapshot.js";
-import type { TraceObservation } from "@ghostrider/shared";
 
 const LOAD_TIMEOUT_MS = 10_000;
 const NETWORK_IDLE_TIMEOUT_MS = 2_000;

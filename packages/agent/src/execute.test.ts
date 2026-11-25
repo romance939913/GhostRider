@@ -1,3 +1,4 @@
+import { type Action, type AriaRoleName, StepResult } from "@ghostrider/shared";
 import type { Page } from "playwright";
 import {
   afterAll,
@@ -10,7 +11,6 @@ import {
 } from "vitest";
 import { type BrowserSession, launchBrowser } from "./browser.js";
 import { type ExecuteOptions, execute, resolveSecrets } from "./execute.js";
-import { type Action, type AriaRoleName, StepResult } from "@ghostrider/shared";
 
 // Drives a real headless Chromium (see observe.test.ts).
 let session: BrowserSession;

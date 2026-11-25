@@ -1,6 +1,6 @@
+import type { ActionType } from "@ghostrider/shared";
 import { describe, expect, it } from "vitest";
 import { ARIA_ROLE_LIST } from "../roles.js";
-import type { ActionType } from "@ghostrider/shared";
 import { AGENT_TOOLS, parseToolCall } from "./tools.js";
 
 /** Keywords strict tool use rejects; the Zod schema checks these instead. */
