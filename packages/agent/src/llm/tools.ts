@@ -1,5 +1,5 @@
 import { ARIA_ROLE_LIST } from "../roles.js";
-import { Action, type ActionType } from "../trace.js";
+import { Action, type ActionType } from "@ghostrider/shared";
 import type { AgentDecision } from "./types.js";
 
 /**

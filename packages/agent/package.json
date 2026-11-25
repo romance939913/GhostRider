@@ -21,6 +21,7 @@
   ],
   "dependencies": {
     "@anthropic-ai/sdk": "^1.8.0",
+    "@ghostrider/shared": "workspace:*",
     "playwright": "^1.65.0",
     "zod": "^4.6.7"
   },

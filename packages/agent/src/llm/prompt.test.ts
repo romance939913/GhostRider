@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { TraceObservation } from "../trace.js";
+import type { TraceObservation } from "@ghostrider/shared";
 import {
   describeAction,
   MAX_HISTORY_ENTRIES,

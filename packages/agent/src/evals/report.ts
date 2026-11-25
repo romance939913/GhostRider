@@ -1,4 +1,4 @@
-import type { Trace } from "../trace.js";
+import type { Trace } from "@ghostrider/shared";
 import type { EvalJourney } from "./journeys.js";
 
 export interface EvalResult {

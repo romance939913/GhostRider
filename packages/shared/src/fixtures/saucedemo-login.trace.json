@@ -1,5 +1,5 @@
 {
-  "traceFormatVersion": 0,
+  "traceFormatVersion": 1,
   "id": "3f1c2a9e-8b7d-4c6e-9a1f-2b3c4d5e6f70",
   "goal": "Log in as standard_user and confirm the Products page loads",
   "startUrl": "https://www.saucedemo.com/",

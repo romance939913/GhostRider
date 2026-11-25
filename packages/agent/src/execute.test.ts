@@ -10,7 +10,7 @@ import {
 } from "vitest";
 import { type BrowserSession, launchBrowser } from "./browser.js";
 import { type ExecuteOptions, execute, resolveSecrets } from "./execute.js";
-import { type Action, StepResult } from "./trace.js";
+import { type Action, type AriaRoleName, StepResult } from "@ghostrider/shared";
 
 // Drives a real headless Chromium (see observe.test.ts).
 let session: BrowserSession;
@@ -161,7 +161,8 @@ describe("click", () => {
   it("reports invalid_action for an unknown role", async () => {
     const result = await run({
       type: "click",
-      target: { role: "not-a-role", name: "Buy now" },
+      // Not an ARIA role on purpose: the executor must reject it itself.
+      target: { role: "not-a-role" as AriaRoleName, name: "Buy now" },
     });
 
     expect(result).toMatchObject({

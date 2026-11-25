@@ -15,7 +15,7 @@ import type {
   NextActionRequest,
   NextActionResult,
 } from "./llm/types.js";
-import { type Action, Trace } from "./trace.js";
+import { type Action, Trace } from "@ghostrider/shared";
 
 // Drives a real headless Chromium with a scripted fake model: no network,
 // no API key. Each test gets a fresh tab (see execute.test.ts for why).

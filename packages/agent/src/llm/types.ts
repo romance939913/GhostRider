@@ -3,7 +3,7 @@ import type {
   StepResult,
   TokenUsage,
   TraceObservation,
-} from "../trace.js";
+} from "@ghostrider/shared";
 
 /** One earlier step, as the model sees it in the prompt. */
 export interface HistoryEntry {

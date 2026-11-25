@@ -1,99 +1,16 @@
+import { ARIA_ROLE_LIST } from "@ghostrider/shared";
 import type { Page } from "playwright";
+
+export { ARIA_ROLE_LIST };
 
 /** An ARIA role as Playwright's getByRole accepts it. */
 export type AriaRole = Parameters<Page["getByRole"]>[0];
 
 /**
- * Every role Playwright's getByRole accepts. `satisfies` keeps this list in
- * sync with Playwright's own type: a typo here is a compile error.
- *
- * Used twice: the executor rejects unknown roles (Playwright would silently
- * match nothing), and the LLM tool schema lists them as an enum, so with
- * strict tool use the model can't send an invalid role at all.
+ * Used by the executor to reject unknown roles before Playwright sees them.
+ * `new Set<AriaRole>` doubles as a compile-time check that every role in the
+ * shared list is one Playwright accepts: a typo becomes a type error here.
  */
-export const ARIA_ROLE_LIST = [
-  "alert",
-  "alertdialog",
-  "application",
-  "article",
-  "banner",
-  "blockquote",
-  "button",
-  "caption",
-  "cell",
-  "checkbox",
-  "code",
-  "columnheader",
-  "combobox",
-  "complementary",
-  "contentinfo",
-  "definition",
-  "deletion",
-  "dialog",
-  "directory",
-  "document",
-  "emphasis",
-  "feed",
-  "figure",
-  "form",
-  "generic",
-  "grid",
-  "gridcell",
-  "group",
-  "heading",
-  "img",
-  "insertion",
-  "link",
-  "list",
-  "listbox",
-  "listitem",
-  "log",
-  "main",
-  "marquee",
-  "math",
-  "meter",
-  "menu",
-  "menubar",
-  "menuitem",
-  "menuitemcheckbox",
-  "menuitemradio",
-  "navigation",
-  "none",
-  "note",
-  "option",
-  "paragraph",
-  "presentation",
-  "progressbar",
-  "radio",
-  "radiogroup",
-  "region",
-  "row",
-  "rowgroup",
-  "rowheader",
-  "scrollbar",
-  "search",
-  "searchbox",
-  "separator",
-  "slider",
-  "spinbutton",
-  "status",
-  "strong",
-  "subscript",
-  "superscript",
-  "switch",
-  "tab",
-  "table",
-  "tablist",
-  "tabpanel",
-  "term",
-  "textbox",
-  "time",
-  "timer",
-  "toolbar",
-  "tooltip",
-  "tree",
-  "treegrid",
-  "treeitem",
-] as const satisfies readonly AriaRole[];
-
-export const ARIA_ROLES: ReadonlySet<string> = new Set(ARIA_ROLE_LIST);
+export const ARIA_ROLES: ReadonlySet<string> = new Set<AriaRole>(
+  ARIA_ROLE_LIST,
+);

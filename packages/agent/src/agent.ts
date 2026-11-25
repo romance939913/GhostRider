@@ -9,7 +9,7 @@ import {
   Trace,
   type TraceOutcomeStatus,
   type TraceStep,
-} from "./trace.js";
+} from "@ghostrider/shared";
 
 export const DEFAULT_MAX_STEPS = 25;
 export const DEFAULT_MAX_COST_USD = 0.5;

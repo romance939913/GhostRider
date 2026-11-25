@@ -1,13 +1,15 @@
 import { z } from "zod";
+import { ARIA_ROLE_LIST } from "./aria-roles.js";
 
 /**
- * Trace format v0: the agent's step-by-step record of a journey.
+ * Trace format v1: the recording agent's step-by-step record of a journey.
  *
- * Provisional until the end of M1 (ADR-005), when it moves to
- * packages/shared and a new ADR locks it. Bump TRACE_FORMAT_VERSION on any
- * breaking change so stored traces stay readable.
+ * Locked by ADR-006. It's the contract between the agent (M1), the compiler
+ * (M2), storage (M3) and the replay viewer (M4). Additive, optional fields
+ * are fine; any breaking change bumps TRACE_FORMAT_VERSION so stored traces
+ * stay readable.
  */
-export const TRACE_FORMAT_VERSION = 0;
+export const TRACE_FORMAT_VERSION = 1;
 
 const NonNegativeInt = z.int().min(0);
 
@@ -23,7 +25,7 @@ const NonNegativeInt = z.int().min(0);
  */
 export const ElementTarget = z.object({
   /** ARIA role as shown in the snapshot, e.g. "button", "textbox", "link". */
-  role: z.string().min(1),
+  role: z.enum(ARIA_ROLE_LIST),
   /** Accessible name, matched exactly, e.g. "Login". */
   name: z.string(),
   /** 0-based index when several elements share the same role + name. */
@@ -162,7 +164,10 @@ export type TraceStep = z.infer<typeof TraceStep>;
 export const TraceOutcomeStatus = z.enum([
   /** Agent called done(success: true). */
   "succeeded",
-  /** Agent called done(success: false): it decided the goal can't be achieved. */
+  /**
+   * The journey can't be completed on the site: the agent called
+   * done(success: false), or the start URL didn't load.
+   */
   "failed",
   /** Hit the maximum number of steps. */
   "step_limit",
