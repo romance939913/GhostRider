@@ -1,4 +1,4 @@
-import type { TokenUsage } from "../trace.js";
+import type { TokenUsage } from "@ghostrider/shared";
 
 interface Price {
   /** USD per million uncached input tokens. */

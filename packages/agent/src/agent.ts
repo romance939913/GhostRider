@@ -1,15 +1,15 @@
 import { randomUUID } from "node:crypto";
-import type { Page } from "playwright";
-import { execute } from "./execute.js";
-import type { HistoryEntry, LlmClient, NextActionResult } from "./llm/types.js";
-import { observe } from "./observe.js";
 import {
   type TokenUsage,
   TRACE_FORMAT_VERSION,
   Trace,
   type TraceOutcomeStatus,
   type TraceStep,
-} from "./trace.js";
+} from "@ghostrider/shared";
+import type { Page } from "playwright";
+import { execute } from "./execute.js";
+import type { HistoryEntry, LlmClient, NextActionResult } from "./llm/types.js";
+import { observe } from "./observe.js";
 
 export const DEFAULT_MAX_STEPS = 25;
 export const DEFAULT_MAX_COST_USD = 0.5;

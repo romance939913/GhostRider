@@ -1,4 +1,4 @@
-import type { TraceOutcomeStatus } from "../trace.js";
+import type { TraceOutcomeStatus } from "@ghostrider/shared";
 
 /**
  * The M1 eval set: real journeys on sites built for test automation.

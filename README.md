@@ -51,13 +51,36 @@ flowchart LR
 
 See [architecture.md](docs/architecture.md) for the components, job flow and sequence diagrams.
 
+## The recording agent
+
+The agent ([`packages/agent`](packages/agent/src)) records a journey one step at a time:
+
+1. **Observe:** take the page's accessibility tree (ARIA snapshot), wait until it stops changing, redact secrets and password values, and compact it to a size budget without dropping anything clickable.
+2. **Decide:** send the goal, the steps so far and the page to the model, which must answer with exactly one tool call (`navigate`, `click`, `select`, `type`, `assert` or `done`), validated against the trace schema.
+3. **Act:** run it with Playwright. Elements are found by ARIA role and accessible name, the same selector the compiled script will use. Failures come back as error codes the model can read and recover from.
+4. **Record:** append the step to the trace, then repeat until `done`, with limits on steps and spend.
+
+Two rules keep recordings honest: the model never sees a secret (only `{{secrets.name}}` placeholders), and a recording can only succeed after an assert has passed. The trace format is locked in [ADR-006](docs/adr/0006-trace-format-v1.md).
+
+**Measured on an [eval set](packages/agent/src/evals/journeys.ts)** of 8 journeys on public test sites, including one that must fail: **8/8 passing at $0.20 for the full set**, every success proven by an assert that matches the goal, up from 7/8 at $0.64 before the M1 fixes (reports in [`packages/agent/eval-results`](packages/agent/eval-results)).
+
+```bash
+# record a journey (needs ANTHROPIC_API_KEY in .env); the trace is saved to traces/
+pnpm --filter @ghostrider/agent record --url https://www.saucedemo.com \
+  --goal "Log in as standard_user and confirm the Products page loads" \
+  --secret password=secret_sauce --headed
+
+# run the eval set (calls the real model, never runs in CI)
+pnpm --filter @ghostrider/agent eval
+```
+
 ## Status
 
 | Milestone | What it delivers                                                         | Status  |
 | --------- | ------------------------------------------------------------------------ | ------- |
 | **M0**    | Design docs, ADRs, monorepo, Docker Compose stack, CI                    | ✅ Done |
-| **M1**    | Agent spike: English goal → agent drives Playwright → step trace         | Next    |
-| **M2**    | Compiler: trace → deterministic Playwright script                        |         |
+| **M1**    | Agent spike: English goal → agent drives Playwright → step trace         | ✅ Done |
+| **M2**    | Compiler: trace → deterministic Playwright script                        | Next    |
 | **M3**    | Platform core: auth, journeys, BullMQ queues and schedules, workers      |         |
 | **M4**    | Slack and email alerts, run history, step replay viewer                  |         |
 | **M5**    | Hardening and launch: domain verification, encrypted credentials, deploy |         |
@@ -134,7 +157,8 @@ apps/
   api/              Fastify API (/health so far)
   web/              Next.js app (health page so far)
 packages/
-  shared/           Zod schemas shared across apps
+  agent/            Recording agent: observe, decide, act, record; evals
+  shared/           Zod schemas shared across apps, including the trace format
   db/               Drizzle schema, migrations and migration runner
 docs/               Product spec, architecture, data model, ADRs
 Dockerfile          Multi-stage build with api, web and migrate targets
@@ -151,7 +175,8 @@ Dockerfile          Multi-stage build with api, web and migrate targets
   - [ADR-002](docs/adr/0002-all-typescript-monorepo.md): All-TypeScript monorepo
   - [ADR-003](docs/adr/0003-ai-at-authoring-deterministic-replay.md): AI at authoring time, deterministic replay at run time
   - [ADR-004](docs/adr/0004-postgres-state-redis-bullmq-jobs.md): Postgres for state; Redis + BullMQ for jobs and schedules
-  - [ADR-005](docs/adr/0005-provisional-data-model-and-trace-format.md): Data model and trace format are provisional until M1
+  - [ADR-005](docs/adr/0005-provisional-data-model-and-trace-format.md): Data model and trace format are provisional until M1 (superseded)
+  - [ADR-006](docs/adr/0006-trace-format-v1.md): Trace format v1
 
 ## How it compares
 

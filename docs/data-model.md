@@ -1,9 +1,9 @@
 # GhostRider — Data Model
 
-> **Status:** Draft v0.3, **provisional** · Last updated: 2026-11-10
+> **Status:** Draft v0.4 · Last updated: 2026-11-24
 > Related: [Spec](./v1-product-spec.md) · [Architecture](./architecture.md) · [ADRs](./adr/)
 >
-> The shape of agent traces and compiled steps depends on the M1 agent spike, so those columns are deliberately loose (`jsonb`, or a file in S3) until the trace format settles (ADR-005). Everything else is expected to hold for v1.
+> The agent's trace format is locked as v1 ([ADR-006](./adr/0006-trace-format-v1.md)) and stored as JSON in S3. The shape of compiled steps (`journey_versions.steps`) stays loose (`jsonb`) until the M2 compiler settles it. Everything else is expected to hold for v1.
 
 ## 1. Entity overview
 
@@ -177,34 +177,34 @@ A user journey to monitor, plus its schedule and current health.
 
 One agent session against a journey. This is the authoring path, and where AI cost is tracked.
 
-| Column                           | Type               | Notes                                                                |
-| -------------------------------- | ------------------ | -------------------------------------------------------------------- |
-| `id`                             | uuid PK            | also the BullMQ job ID for the `record` queue                        |
-| `journey_id`                     | uuid FK → journeys |                                                                      |
-| `status`                         | text               | `queued` \| `running` \| `succeeded` \| `failed`                     |
-| `model`                          | text               | e.g. provider/model name, for the M7 evals                           |
-| `step_count`                     | int                |                                                                      |
-| `input_tokens` / `output_tokens` | int                |                                                                      |
-| `cost_microusd`                  | bigint             | cost in millionths of a dollar (integer, so no rounding errors)      |
-| `trace_key`                      | text, null         | S3 key of the full agent trace (JSON, `trace_format_version` inside) |
-| `failure_reason`                 | text, null         | why the agent gave up, shown to the user                             |
-| `started_at` / `finished_at`     | timestamptz, null  |                                                                      |
-| `created_at`                     | timestamptz        |                                                                      |
+| Column                           | Type               | Notes                                                                                                                  |
+| -------------------------------- | ------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| `id`                             | uuid PK            | also the BullMQ job ID for the `record` queue                                                                          |
+| `journey_id`                     | uuid FK → journeys |                                                                                                                        |
+| `status`                         | text               | `queued` \| `running`, then the trace outcome: `succeeded` \| `failed` \| `step_limit` \| `budget_exceeded` \| `error` |
+| `model`                          | text               | e.g. provider/model name, for the M7 evals                                                                             |
+| `step_count`                     | int                |                                                                                                                        |
+| `input_tokens` / `output_tokens` | int                | input includes prompt-cache tokens; the trace's totals have the split                                                  |
+| `cost_microusd`                  | bigint             | cost in millionths of a dollar (integer, so no rounding errors)                                                        |
+| `trace_key`                      | text, null         | S3 key of the full agent trace (JSON, format v1 per ADR-006)                                                           |
+| `failure_reason`                 | text, null         | why the agent gave up, shown to the user                                                                               |
+| `started_at` / `finished_at`     | timestamptz, null  |                                                                                                                        |
+| `created_at`                     | timestamptz        |                                                                                                                        |
 
 ### `journey_versions`
 
 A compiled, **immutable** script. Re-recording creates a new version, and old runs keep pointing at the version they actually ran.
 
-| Column                 | Type                 | Notes                                                                                                       |
-| ---------------------- | -------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `id`                   | uuid PK              |                                                                                                             |
-| `journey_id`           | uuid FK → journeys   |                                                                                                             |
-| `recording_id`         | uuid FK → recordings |                                                                                                             |
-| `version`              | int                  | 1, 2, 3… per journey                                                                                        |
-| `trace_format_version` | int                  | which trace schema this was compiled from                                                                   |
-| `steps`                | jsonb                | **provisional.** Per step: action, selector + fallbacks, value or `{{variable}}`, assertion, English intent |
-| `script`               | text                 | the generated Playwright TypeScript, for display and debugging                                              |
-| `created_at`           | timestamptz          |                                                                                                             |
+| Column                 | Type                 | Notes                                                                                                                |
+| ---------------------- | -------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `id`                   | uuid PK              |                                                                                                                      |
+| `journey_id`           | uuid FK → journeys   |                                                                                                                      |
+| `recording_id`         | uuid FK → recordings |                                                                                                                      |
+| `version`              | int                  | 1, 2, 3… per journey                                                                                                 |
+| `trace_format_version` | int                  | which trace schema this was compiled from                                                                            |
+| `steps`                | jsonb                | **provisional until M2.** Per step: action, selector + fallbacks, value or `{{variable}}`, assertion, English intent |
+| `script`               | text                 | the generated Playwright TypeScript, for display and debugging                                                       |
+| `created_at`           | timestamptz          |                                                                                                                      |
 
 Unique: `(journey_id, version)`. Rows are never updated.
 
@@ -338,7 +338,7 @@ Screenshot storage now grows only with _failures_, which is the data worth keepi
 
 ## 7. Open questions
 
-- **Trace and step shape:** settled by the M1 spike, then pinned in `packages/shared` and ADR-005.
+- **Compiled step shape** (`journey_versions.steps`): settled by the M2 compiler. The trace format itself is locked ([ADR-006](./adr/0006-trace-format-v1.md)).
 - **Per-run variables** (value chaining, e.g. `ghost+{{run.id}}@…`): are generated values worth storing on `runs` for debugging? Decide in M2.
 - **Partitioning `runs`** by month: not needed at v1 volume. Revisit if run counts grow past roughly 10M rows.
 - **Auth library** (and its session tables): decide in M3.

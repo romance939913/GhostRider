@@ -1,13 +1,13 @@
-import { errors, type Locator, type Page } from "playwright";
-import { accessibleNameMatcher } from "./names.js";
-import { ARIA_ROLES, type AriaRole } from "./roles.js";
 import type {
   Action,
   Assertion,
   ElementTarget,
   StepErrorCode,
   StepResult,
-} from "./trace.js";
+} from "@ghostrider/shared";
+import { errors, type Locator, type Page } from "playwright";
+import { accessibleNameMatcher } from "./names.js";
+import { ARIA_ROLES, type AriaRole } from "./roles.js";
 
 const ACTION_TIMEOUT_MS = 5_000;
 const NAVIGATION_TIMEOUT_MS = 30_000;

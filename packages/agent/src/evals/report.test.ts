@@ -1,5 +1,5 @@
+import type { Trace, TraceStep } from "@ghostrider/shared";
 import { describe, expect, it } from "vitest";
-import type { Trace, TraceStep } from "../trace.js";
 import type { EvalJourney } from "./journeys.js";
 import { EVAL_JOURNEYS } from "./journeys.js";
 import { type EvalResult, finalUrl, grade, renderReport } from "./report.js";

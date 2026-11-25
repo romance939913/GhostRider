@@ -48,7 +48,8 @@ export {
   redactValues,
   waitForSettled,
 } from "./observe.js";
-export { ARIA_ROLE_LIST, ARIA_ROLES, type AriaRole } from "./roles.js";
+// Trace types and ARIA roles now live in @ghostrider/shared.
+export { ARIA_ROLES, type AriaRole } from "./roles.js";
 export {
   type CompactOptions,
   type CompactResult,
@@ -56,4 +57,3 @@ export {
   DEFAULT_SNAPSHOT_BUDGET_CHARS,
   INTERACTIVE_ROLES,
 } from "./snapshot.js";
-export * from "./trace.js";

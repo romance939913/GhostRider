@@ -1,6 +1,6 @@
 # ADR-005: Data model and trace format are provisional until M1
 
-- **Status:** Accepted
+- **Status:** Superseded by [ADR-006](./0006-trace-format-v1.md)
 - **Date:** 2026-11-12
 - **Deciders:** Brennan Romance
 

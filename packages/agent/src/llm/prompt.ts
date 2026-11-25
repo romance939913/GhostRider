@@ -1,4 +1,4 @@
-import type { Action, StepResult } from "../trace.js";
+import type { Action, StepResult } from "@ghostrider/shared";
 import type { HistoryEntry, NextActionRequest } from "./types.js";
 
 /** Older steps are summarized as a count to keep the prompt small. */

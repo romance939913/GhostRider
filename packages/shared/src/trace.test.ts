@@ -85,7 +85,7 @@ describe("Trace", () => {
 
   it("rejects a different trace format version", () => {
     const input = mutated((t) => {
-      (t as { traceFormatVersion: number }).traceFormatVersion = 1;
+      (t as { traceFormatVersion: number }).traceFormatVersion = 0;
     });
     expect(issuePaths(input)).toContain("traceFormatVersion");
   });
@@ -151,6 +151,12 @@ describe("ElementTarget", () => {
         name: "Enter your email",
         nth: -1,
       }).success,
+    ).toBe(false);
+  });
+
+  it("rejects a role that isn't an ARIA role", () => {
+    expect(
+      ElementTarget.safeParse({ role: "not-a-role", name: "Login" }).success,
     ).toBe(false);
   });
 });
